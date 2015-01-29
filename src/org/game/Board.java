@@ -1,5 +1,6 @@
 package org.game;
 
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.MouseEvent;
@@ -9,19 +10,29 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 @SuppressWarnings("serial")
-public class InGame extends JPanel implements MouseListener{
-	Image background;
+public class Board extends JPanel implements MouseListener{
+	
+	private Image board;
+	
 	private int[] x;
 	private int[] y;
-	public InGame() {
+	
+	
+	public Board() {
+		
+		initBoard();
+		
 		this.addMouseListener(this);
 		this.setFocusable(true);
-		ImageIcon ii = new ImageIcon("assets/field34x34.png");
-		background = ii.getImage();
+		
 		x = new int[40];
 		y = new int[40];
+		
+		
 		int currentX = 45;
 		int currentY = 45;
+		
+		
 		for (int i = 0; i < 40; i++) {
 			
 			x[i] = currentX;
@@ -44,10 +55,23 @@ public class InGame extends JPanel implements MouseListener{
 		
 	}
 	
+	private void initBoard() {
+        
+        loadImage();
+        
+        int width = board.getWidth(this);
+        int height = board.getHeight(this);
+        setPreferredSize(new Dimension(width, height));
+    }
+	
+	private void loadImage() {
+		ImageIcon ii = new ImageIcon("assets/field34x34.png");
+		board = ii.getImage();
+	}
+	
 	public void paint(Graphics g) {
 		super.paint(g);
-		g.drawImage(background, 0, 0, null);
-		g.drawOval(x[39],y[39],45,45);
+		g.drawImage(board, 0, 0, null);
 	}
 
 	@Override
