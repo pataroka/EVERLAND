@@ -18,20 +18,20 @@ public class InGame extends JPanel implements MouseListener{
 		this.setFocusable(true);
 		ImageIcon ii = new ImageIcon("assets/field34x34.png");
 		background = ii.getImage();
-		x = new int[42];
-		y = new int[42];
+		x = new int[40];
+		y = new int[40];
 		int currentX = 45;
 		int currentY = 45;
-		for (int i = 0; i < 42; i++) {
+		for (int i = 0; i < 40; i++) {
 			
 			x[i] = currentX;
 			y[i] = currentY;
 			
 			if (i < 10) {
 				currentX += 46;
-			} else if(i < 21) {
+			} else if(i < 20) {
 				currentY += 46;
-			} else if (i < 31) {
+			} else if (i < 30) {
 				currentX -= 46;
 			} else {
 				currentY -= 46;
@@ -47,7 +47,7 @@ public class InGame extends JPanel implements MouseListener{
 	public void paint(Graphics g) {
 		super.paint(g);
 		g.drawImage(background, 0, 0, null);
-		g.drawOval(x[41],y[41],45,45);
+		g.drawOval(x[39],y[39],45,45);
 	}
 
 	@Override
