@@ -8,10 +8,10 @@ public class Game extends JFrame{
 	static final int WIDTH = 620;
 	static final int HEIGHT = 620;
 	static final int cellSize = 45;
-	private InGame inGame;
+	private Board board;
 
 	public Game() {
-		inGame = new InGame();
+		board= new Board();
 		init();
 		update();
 	}
@@ -22,13 +22,13 @@ public class Game extends JFrame{
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setLocationRelativeTo(null);
 		this.setResizable(false);
-		this.add(inGame);
+		this.add(board);
 		this.setVisible(true);
 	}
 	
 	private void update() {
 		while (true) {
-			inGame.tick();
+			board.tick();
 			repaint();
 			try {
 				Thread.sleep(30);
