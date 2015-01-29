@@ -14,9 +14,6 @@ public class Board extends JPanel implements MouseListener{
 	
 	private Image board;
 	
-	private int[] x;
-	private int[] y;
-	
 	
 	public Board() {
 		
@@ -25,29 +22,7 @@ public class Board extends JPanel implements MouseListener{
 		this.addMouseListener(this);
 		this.setFocusable(true);
 		
-		x = new int[40];
-		y = new int[40];
 		
-		
-		int currentX = 45;
-		int currentY = 45;
-		
-		
-		for (int i = 0; i < 40; i++) {
-			
-			x[i] = currentX;
-			y[i] = currentY;
-			
-			if (i < 10) {
-				currentX += 46;
-			} else if(i < 20) {
-				currentY += 46;
-			} else if (i < 30) {
-				currentX -= 46;
-			} else {
-				currentY -= 46;
-			}
-		}
 	}
 	
 	public void tick() {
