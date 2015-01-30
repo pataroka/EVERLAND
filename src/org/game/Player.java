@@ -10,14 +10,14 @@ public class Player extends JPanel {
 
 	private boolean isHuman = false;
 	private ArrayList<Figure> figures = new ArrayList<Figure>();
-	private org.game.Figure.Color playerColor;
+	private Figure.Color playerColor;
 	
-	public Player(org.game.Figure.Color color) {
+	public Player(Figure.Color color) {
 		this.playerColor = color;
 		initFigures();
 	}
 	
-	public Player(boolean isHuman, org.game.Figure.Color color) {
+	public Player(boolean isHuman, Figure.Color color) {
 		this.playerColor = color;
 		this.setHuman(isHuman);
 		initFigures();
