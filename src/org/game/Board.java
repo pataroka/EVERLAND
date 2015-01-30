@@ -10,10 +10,13 @@ import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
+import org.game.Figure.Color;
+
 @SuppressWarnings("serial")
 public class Board extends JPanel implements MouseListener{
 	
 	private Image board;
+	private Image dice;
 	private ArrayList<Player> players = new ArrayList<Player>();
 	private int diceNumber = 0;
 	private boolean rollDice;
@@ -79,7 +82,7 @@ public class Board extends JPanel implements MouseListener{
 	private void initBoard() {
         
         loadImage();
-        
+        getDiceImage(6);
         int width = board.getWidth(this);
         int height = board.getHeight(this);
         setPreferredSize(new Dimension(width, height));
@@ -90,9 +93,28 @@ public class Board extends JPanel implements MouseListener{
 		board = ii.getImage();
 	}
 	
+	private void getDiceImage(int diceNumber) {
+		ImageIcon id1 = new ImageIcon("assets/Dice1.png");
+		ImageIcon id2 = new ImageIcon("assets/Dice2.png");
+		ImageIcon id3 = new ImageIcon("assets/Dice3.png");
+		ImageIcon id4 = new ImageIcon("assets/Dice4.png");
+		ImageIcon id5 = new ImageIcon("assets/Dice5.png");
+		ImageIcon id6 = new ImageIcon("assets/Dice6.png");
+		
+		switch (diceNumber){
+			case 1: dice = id1.getImage(); break;
+			case 2: dice = id2.getImage(); break;
+			case 3: dice = id3.getImage(); break;
+			case 4: dice = id4.getImage(); break;
+			case 5: dice = id5.getImage(); break;
+			case 6: dice = id6.getImage(); break;
+		}
+	}
+	
 	public void paint(Graphics g) {
 		super.paint(g);
 		g.drawImage(board, 0, 0, null);
+		g.drawImage(dice, Game.cellSize * 6 + 3, Game.cellSize * 6 + 4, null);
 		for (Player p : players) {
 			p.paint(g);
 		}
