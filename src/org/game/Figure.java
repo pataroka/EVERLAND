@@ -42,7 +42,7 @@ public class Figure extends JPanel{
 	
 	public void paint(Graphics g) {
 		super.paint(g);
-		g.drawImage(pawn, x, y, null);
+		g.drawImage(pawn, x + 6, y - 21, null);
 	}
 	
 	public static void setBoardArray() {
