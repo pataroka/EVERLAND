@@ -19,7 +19,7 @@ public class Board extends JPanel implements MouseListener{
 	private Image board;
 	private Image dice;
 	private ArrayList<Player> players = new ArrayList<Player>();
-	private int diceNumber = 0;
+	private int diceNumber = 1;
 	private boolean rollDice;
 	private int currentClickedX;
 	private int currentClickedY;
@@ -85,6 +85,7 @@ public class Board extends JPanel implements MouseListener{
 	private void initBoard() {
         
         loadImage();
+		getDiceImage(diceNumber);
         int width = board.getWidth(this);
         int height = board.getHeight(this);
         setPreferredSize(new Dimension(width, height));
@@ -98,7 +99,6 @@ public class Board extends JPanel implements MouseListener{
 	public int dice () {
 		Random rnd = new Random();
 		diceNumber = 1 + rnd.nextInt(6);
-		getDiceImage(diceNumber);
 		return diceNumber;
     }
 	
