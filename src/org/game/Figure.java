@@ -1,6 +1,7 @@
 package org.game;
 
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
 
 import javax.swing.ImageIcon;
@@ -78,5 +79,7 @@ public class Figure extends JPanel{
 	
 	public void setPosition(int position) {
 		this.position = position;
+		this.x = boardX[position];
+		this.y = boardY[position];
 	}
 }

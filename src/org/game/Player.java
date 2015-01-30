@@ -19,7 +19,7 @@ public class Player extends JPanel {
 	
 	public Player(boolean isHuman, org.game.Figure.Color color) {
 		this.playerColor = color;
-		this.isHuman = isHuman;
+		this.setHuman(isHuman);
 		initFigures();
 	}
 	
@@ -61,5 +61,13 @@ public class Player extends JPanel {
 	
 	public ArrayList<Figure> getFigures() {
 		return this.figures;
+	}
+
+	public boolean isHuman() {
+		return isHuman;
+	}
+
+	public void setHuman(boolean isHuman) {
+		this.isHuman = isHuman;
 	}
 }

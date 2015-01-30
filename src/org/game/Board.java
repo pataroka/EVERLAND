@@ -14,7 +14,12 @@ import javax.swing.JPanel;
 public class Board extends JPanel implements MouseListener{
 	
 	private Image board;
-	private ArrayList<Player> players = new ArrayList<Player>();	
+	private ArrayList<Player> players = new ArrayList<Player>();
+	private int diceNumber = 0;
+	private boolean rollDice;
+	private int currentClickedX;
+	private int currentClickedY;
+	private boolean moved;
 	
 	public Board() {
 		
@@ -33,7 +38,41 @@ public class Board extends JPanel implements MouseListener{
 	}
 	
 	public void tick() {
-		
+		for (Player player : players) {
+			
+			if (!player.isHuman()) {
+				// AI logic here
+				continue;
+			}
+			
+			rollDice = true;
+			moved = false;
+			synchronized (this) {
+				do {
+					try {
+						this.wait();
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				} while (diceNumber == 0);
+				rollDice = false;
+				
+				do {
+					try {
+						this.wait();
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+					
+					for (Figure f : player.getFigures()) {
+						// game logic here
+					}
+				} while (!moved);
+			}
+			
+			repaint();
+			
+		}
 		
 	}
 	
@@ -61,7 +100,17 @@ public class Board extends JPanel implements MouseListener{
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
+		
+		synchronized (this) {
+			if (rollDice) {	
+				// roll the dice here
+			} else {
+				currentClickedX = e.getX();
+				currentClickedY = e.getY();
+			}
+	
+			this.notify();
+		}
 		
 	}
 
