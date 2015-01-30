@@ -6,6 +6,7 @@ import java.awt.Image;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import java.util.Random;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
@@ -40,6 +41,8 @@ public class Board extends JPanel implements MouseListener{
 		
 	}
 	
+	
+
 	public void tick() {
 		for (Player player : players) {
 			
@@ -82,7 +85,6 @@ public class Board extends JPanel implements MouseListener{
 	private void initBoard() {
         
         loadImage();
-        getDiceImage(6);
         int width = board.getWidth(this);
         int height = board.getHeight(this);
         setPreferredSize(new Dimension(width, height));
@@ -92,6 +94,13 @@ public class Board extends JPanel implements MouseListener{
 		ImageIcon ii = new ImageIcon("assets/field34x34.png");
 		board = ii.getImage();
 	}
+	
+	public int dice () {
+		Random rnd = new Random();
+		diceNumber = 1 + rnd.nextInt(6);
+		getDiceImage(diceNumber);
+		return diceNumber;
+    }
 	
 	private void getDiceImage(int diceNumber) {
 		ImageIcon id1 = new ImageIcon("assets/Dice1.png");
