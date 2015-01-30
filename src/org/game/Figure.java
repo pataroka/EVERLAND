@@ -4,7 +4,9 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 @SuppressWarnings("serial")
@@ -13,24 +15,34 @@ public class Figure extends JPanel{
 	private int x;
 	private int y;
 	private int position;
-	private Color color;
+	private Image pawn;
 	private static int[] boardX;
 	private static int[] boardY;
+	enum Color {BLUE, RED, YELLOW, GREEN};
 
 	public Figure(int x, int y, Color color) {
 		this.x = x;
 		this.y = y;
-		this.color = color;
+		getImage(color);
+	}
+	
+	private void getImage(Color color) {
+		ImageIcon ib = new ImageIcon("assets/Blue_Pawn36x64.png");
+		ImageIcon ir = new ImageIcon("assets/Red_Pawn36x64.png");
+		ImageIcon iy = new ImageIcon("assets/Yellow_Pawn36x64.png");
+		ImageIcon ig = new ImageIcon("assets/Green_Pawn36x64.png");
+		
+		switch (color){
+			case BLUE: pawn = ib.getImage(); break;
+			case RED: pawn = ir.getImage(); break;
+			case YELLOW: pawn = iy.getImage(); break;
+			case GREEN: pawn = ig.getImage(); break;
+		}
 	}
 	
 	public void paint(Graphics g) {
-		Graphics2D g2 = (Graphics2D) g;
-		g2.setColor(color);
-		g2.fillOval(x, y, Game.cellSize, Game.cellSize);
-		g2.setStroke(new BasicStroke(4));
-        g2.setColor(Color.BLACK);
-		g2.drawOval(x, y, Game.cellSize, Game.cellSize);
-		g2.drawOval(x + Game.cellSize / 4, y + Game.cellSize / 4, Game.cellSize / 2, Game.cellSize / 2);
+		super.paint(g);
+		g.drawImage(pawn, x, y, null);
 	}
 	
 	public static void setBoardArray() {

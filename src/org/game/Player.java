@@ -11,14 +11,14 @@ public class Player extends JPanel {
 
 	private boolean isHuman = false;
 	private ArrayList<Figure> figures = new ArrayList<Figure>();
-	private Color playerColor;
+	private org.game.Figure.Color playerColor;
 	
-	public Player(Color color) {
+	public Player(org.game.Figure.Color color) {
 		this.playerColor = color;
 		initFigures();
 	}
 	
-	public Player(boolean isHuman, Color color) {
+	public Player(boolean isHuman, org.game.Figure.Color color) {
 		this.playerColor = color;
 		this.isHuman = isHuman;
 		initFigures();
@@ -33,13 +33,13 @@ public class Player extends JPanel {
 	private void initFigures() {
 		int x = Game.WIDTH - 100;;
 		int y;
-		if (playerColor == Color.red) {
+		if (playerColor == Figure.Color.RED) {
 			x = Game.cellSize * 3;
 			y = Game.cellSize * 8;
-		} else if (playerColor == Color.green) {
+		} else if (playerColor == Figure.Color.GREEN) {
 			x = Game.cellSize * 3;
 			y = Game.cellSize * 3;
-		} else if (playerColor == Color.blue) {
+		} else if (playerColor == Figure.Color.BLUE) {
 			x = Game.cellSize * 8;
 			y = Game.cellSize * 8;
 		} else {
