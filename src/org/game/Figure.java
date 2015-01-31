@@ -18,8 +18,10 @@ public class Figure extends JPanel{
 	private Image pawn;
 	public static ArrayList<Point> positions;
 	enum Color {BLUE, RED, YELLOW, GREEN};
+	private Color color;
 
 	public Figure(int x, int y, Color color) {
+		this.color = color;
 		this.x = x;
 		this.y = y;
 		getImage(color);
@@ -100,6 +102,10 @@ public class Figure extends JPanel{
 		
 	}
 		
+	public Color getColor() {
+		return this.color;
+	}
+	
 	public int getX() {
 		return this.x;
 	}
