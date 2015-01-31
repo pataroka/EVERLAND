@@ -2,6 +2,8 @@ package org.game;
 
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.Point;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
@@ -13,8 +15,7 @@ public class Figure extends JPanel{
 	private int y;
 	private int position;
 	private Image pawn;
-	private static int[] boardX;
-	private static int[] boardY;
+	public static ArrayList<Point> positions;
 	enum Color {BLUE, RED, YELLOW, GREEN};
 
 	public Figure(int x, int y, Color color) {
@@ -43,23 +44,21 @@ public class Figure extends JPanel{
 	}
 	
 	public static void setBoardArray() {
-		boardX = new int[40];
-		boardY = new int[40];
-		int currentX = Game.cellSize;
-		int currentY = Game.cellSize;
+		positions = new ArrayList<Point>();
+		int currentX = Game.CELL_SIZE;
+		int currentY = Game.CELL_SIZE;
 		for (int i = 0; i < 40; i++) {
 			
-			boardX[i] = currentX;
-			boardY[i] = currentY;
+			positions.add(new Point(currentX, currentY));
 			
 			if (i < 10) {
-				currentX += Game.cellSize;
+				currentX += Game.CELL_SIZE;
 			} else if(i < 20) {
-				currentY += Game.cellSize;
+				currentY += Game.CELL_SIZE;
 			} else if (i < 30) {
-				currentX -= Game.cellSize;
+				currentX -= Game.CELL_SIZE;
 			} else {
-				currentY -= Game.cellSize;
+				currentY -= Game.CELL_SIZE;
 			}
 		}
 	}
@@ -78,7 +77,7 @@ public class Figure extends JPanel{
 	
 	public void setPosition(int position) {
 		this.position = position;
-		this.x = boardX[position];
-		this.y = boardY[position];
+		this.x = positions.get(position).x;
+		this.y = positions.get(position).y;
 	}
 }

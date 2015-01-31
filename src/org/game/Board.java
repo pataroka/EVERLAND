@@ -3,6 +3,7 @@ package org.game;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
@@ -16,14 +17,11 @@ public class Board extends JPanel implements MouseListener{
 	
 	private Image board;
 	private Image dice;
-	private Image mask;
 	private ArrayList<Player> players = new ArrayList<Player>();
 	private int diceNumber = 1;
 	private boolean rollDice;
 	private int currentClickedX;
 	private int currentClickedY;
-	private int currentHoverX;
-	private int currentHoverY;
 	private boolean moved;
 	
 	public Board() {
@@ -33,7 +31,7 @@ public class Board extends JPanel implements MouseListener{
 		
 		this.addMouseListener(this);
 		this.setFocusable(true);
-
+		
 		players.add(new Player(true, Figure.Color.RED));
 		players.add(new Player(Figure.Color.BLUE));
 		players.add(new Player(Figure.Color.GREEN));
@@ -100,10 +98,9 @@ public class Board extends JPanel implements MouseListener{
 		board = ii.getImage();
 	}
 	
-	public int dice () {
+	public void dice () {
 		Random rnd = new Random();
-		diceNumber = 1 + rnd.nextInt(6);
-		return diceNumber;
+		this.diceNumber = 1 + rnd.nextInt(6);
     }
 	
 	private void getDiceImage(int diceNumber) {
@@ -124,24 +121,29 @@ public class Board extends JPanel implements MouseListener{
 		}
 	}
 	
-	private void maskImage(){
-		ImageIcon im = new ImageIcon("assets/pawnmask.png");
-		mask = im.getImage();
-	}
-	
 	public void paint(Graphics g) {
 		super.paint(g);
 		g.drawImage(board, 0, 0, null);
-		g.drawImage(dice, Game.cellSize * 6 + 3, Game.cellSize * 6 + 4, null);
-		g.drawImage(mask, currentHoverX, currentHoverY, null);
+		g.drawImage(dice, Game.CELL_SIZE * 6 + 3, Game.CELL_SIZE * 6 + 4, null);
 		for (Player p : players) {
 			p.paint(g);
 		}
 	}
 
+	private int getPositionIndex(int x, int y) {
+		
+		int cellX;
+		int cellY;
+		cellX = x / Game.CELL_SIZE;
+		cellX *= Game.CELL_SIZE;
+		cellY = y / Game.CELL_SIZE;
+		cellY *= Game.CELL_SIZE;
+		
+		return Figure.positions.indexOf(new Point(cellX, cellY));
+	}
 	
 	public void mouseClicked(MouseEvent e) {
-		
+		System.out.println(getPositionIndex(e.getX(), e.getY()));
 		synchronized (this) {
 			if (!rollDice) {	
 				// roll the dice here
@@ -159,12 +161,9 @@ public class Board extends JPanel implements MouseListener{
 	}
 
 	
-	
+	@Override
 	public void mouseEntered(MouseEvent e) {
-		currentHoverX = e.getX();
-		currentHoverY = e.getY();
-		maskImage();
-		repaint();
+		
 	}
 
 	@Override

@@ -33,26 +33,26 @@ public class Player extends JPanel {
 		int x = Game.WIDTH - 100;;
 		int y;
 		if (playerColor == Figure.Color.RED) {
-			x = Game.cellSize * 3;
-			y = Game.cellSize * 8;
+			x = Game.CELL_SIZE * 3;
+			y = Game.CELL_SIZE * 8;
 		} else if (playerColor == Figure.Color.GREEN) {
-			x = Game.cellSize * 3;
-			y = Game.cellSize * 3;
+			x = Game.CELL_SIZE * 3;
+			y = Game.CELL_SIZE * 3;
 		} else if (playerColor == Figure.Color.BLUE) {
-			x = Game.cellSize * 8;
-			y = Game.cellSize * 8;
+			x = Game.CELL_SIZE * 8;
+			y = Game.CELL_SIZE * 8;
 		} else {
-			x = Game.cellSize * 8;
-			y = Game.cellSize * 3;
+			x = Game.CELL_SIZE * 8;
+			y = Game.CELL_SIZE * 3;
 		}
 		
 		for (int i = 0; i < 4; i++) {
 			if (i == 1) {
-				x += Game.cellSize;
+				x += Game.CELL_SIZE;
 			} else if (i == 2){
-				y += Game.cellSize;
+				y += Game.CELL_SIZE;
 			} else if (i == 3) {
-				x -= Game.cellSize;
+				x -= Game.CELL_SIZE;
 			}
 			
 			this.figures.add(new Figure(x, y, playerColor));

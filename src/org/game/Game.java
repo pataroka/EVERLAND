@@ -7,7 +7,7 @@ public class Game extends JFrame{
 	
 	static final int WIDTH = 620;
 	static final int HEIGHT = 620;
-	static final int cellSize = 45;
+	static final int CELL_SIZE = 45;
 	private Board board;
 
 	public Game() {
