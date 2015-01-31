@@ -95,6 +95,10 @@ public class Figure extends JPanel{
 			currentY -= Game.CELL_SIZE; 
 		}
 	}
+	
+	public void setDefault() {
+		
+	}
 		
 	public int getX() {
 		return this.x;
@@ -108,7 +112,7 @@ public class Figure extends JPanel{
 		return this.position;
 	}
 	
-	public void setPosition(int position) {
+	public void setMove(int position) {
 		this.position = position;
 		this.x = positions.get(position).x;
 		this.y = positions.get(position).y;
