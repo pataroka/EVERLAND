@@ -63,8 +63,16 @@ public class Figure extends JPanel{
 			}
 		}
 		
-		currentY = Game.CELL_SIZE * 2;
+		currentX = Game.CELL_SIZE * 2;
 		for (int i = 40; i < 44; i++) {
+			
+			positions.add(new Point(currentX, Game.CELL_SIZE * 6));
+			
+			currentX += Game.CELL_SIZE; 
+		}
+		
+		currentY = Game.CELL_SIZE * 2;
+		for (int i = 44; i < 48; i++) {
 			
 			positions.add(new Point(Game.CELL_SIZE * 6, currentY));
 			
@@ -72,7 +80,7 @@ public class Figure extends JPanel{
 		}
 		
 		currentX = Game.CELL_SIZE * 10;
-		for (int i = 44; i < 48; i++) {
+		for (int i = 48; i < 52; i++) {
 			
 			positions.add(new Point(currentX, Game.CELL_SIZE * 6));
 			
@@ -80,19 +88,11 @@ public class Figure extends JPanel{
 		}
 		
 		currentY = Game.CELL_SIZE * 10;
-		for (int i = 48; i < 52; i++) {
+		for (int i = 52; i < 56; i++) {
 			
 			positions.add(new Point(Game.CELL_SIZE * 6, currentY));
 			
 			currentY -= Game.CELL_SIZE; 
-		}
-		
-		currentX = Game.CELL_SIZE * 2;
-		for (int i = 52; i < 56; i++) {
-			
-			positions.add(new Point(currentX, Game.CELL_SIZE * 6));
-			
-			currentX += Game.CELL_SIZE; 
 		}
 	}
 		
