@@ -18,7 +18,7 @@ public class Board extends JPanel implements MouseListener{
 	private Image board;
 	private Image dice;
 	private ArrayList<Player> players = new ArrayList<Player>();
-	private int diceNumber = 1;
+	private static int diceNumber = 1;
 	private boolean rollDice;
 	private int currentClickedX;
 	private int currentClickedY;
@@ -98,12 +98,12 @@ public class Board extends JPanel implements MouseListener{
 		board = ii.getImage();
 	}
 	
-	public void dice () {
+	public static void dice () {
 		Random rnd = new Random();
-		this.diceNumber = 1 + rnd.nextInt(6);
+		diceNumber = 1 + rnd.nextInt(6);
     }
 	
-	private void getDiceImage(int diceNumber) {
+	public void getDiceImage(int diceNumber) {
 		ImageIcon id1 = new ImageIcon("assets/Dice1.png");
 		ImageIcon id2 = new ImageIcon("assets/Dice2.png");
 		ImageIcon id3 = new ImageIcon("assets/Dice3.png");
@@ -140,6 +140,10 @@ public class Board extends JPanel implements MouseListener{
 		cellY *= Game.CELL_SIZE;
 		
 		return Figure.positions.indexOf(new Point(cellX, cellY));
+	}
+	
+	public int getDiceNumber() {
+		return Board.diceNumber;
 	}
 	
 	public void mouseClicked(MouseEvent e) {
