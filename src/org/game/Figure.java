@@ -2,6 +2,7 @@ package org.game;
 
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.Label;
 import java.awt.Point;
 import java.util.ArrayList;
 
@@ -60,6 +61,38 @@ public class Figure extends JPanel{
 			} else {
 				currentY -= Game.CELL_SIZE;
 			}
+		}
+		
+		currentY = Game.CELL_SIZE * 2;
+		for (int i = 40; i < 44; i++) {
+			
+			positions.add(new Point(Game.CELL_SIZE * 6, currentY));
+			
+			currentY += Game.CELL_SIZE; 
+		}
+		
+		currentX = Game.CELL_SIZE * 10;
+		for (int i = 44; i < 48; i++) {
+			
+			positions.add(new Point(currentX, Game.CELL_SIZE * 6));
+			
+			currentX -= Game.CELL_SIZE; 
+		}
+		
+		currentY = Game.CELL_SIZE * 10;
+		for (int i = 48; i < 52; i++) {
+			
+			positions.add(new Point(Game.CELL_SIZE * 6, currentY));
+			
+			currentY -= Game.CELL_SIZE; 
+		}
+		
+		currentX = Game.CELL_SIZE * 2;
+		for (int i = 52; i < 56; i++) {
+			
+			positions.add(new Point(currentX, Game.CELL_SIZE * 6));
+			
+			currentX += Game.CELL_SIZE; 
 		}
 	}
 		
