@@ -69,9 +69,31 @@ public class Board extends JPanel implements MouseListener{
 					}
 					
 					for (Figure f : player.getFigures()) {
-						
-						
 						// game logic here
+						if (rollDice){
+							if (diceNumber == 6){
+								if (f.getPosition() == -1){
+										f.setMove(0);
+										rollDice = false;
+										moved = true;
+								}
+								else {
+									f.setMove(6);
+									rollDice = false;
+									moved = true;
+								}
+							}
+							else if (f.getPosition() != -1){
+									f.setMove(diceNumber);
+									rollDice = true;
+									moved = true;
+							}
+							else {
+								rollDice = true;
+								moved = true;
+							}
+						}
+						
 					}
 				} while (!moved);
 			}
