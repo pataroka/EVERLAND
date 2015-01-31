@@ -50,9 +50,8 @@ public class Board extends JPanel implements MouseListener{
 				continue;
 			}
 			
-			diceNumber = 0;
 			rollDice = false;
-			moved = false;
+			moved = true;
 			synchronized (this) {
 				do {
 					try {
@@ -60,8 +59,7 @@ public class Board extends JPanel implements MouseListener{
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
-				} while (diceNumber == 6);
-				rollDice = true;
+				} while (!rollDice);
 				
 				do {
 					try {
@@ -151,9 +149,13 @@ public class Board extends JPanel implements MouseListener{
 		synchronized (this) {
 			if (!rollDice) {	
 				// roll the dice here
-				dice();
-				getDiceImage(diceNumber);
-				repaint();
+				if (e.getX() > Game.CELL_SIZE * 6 && e.getX() < Game.CELL_SIZE * 7 && 
+						e.getY() > Game.CELL_SIZE * 6 && e.getY() < Game.CELL_SIZE * 7) {
+					dice();
+					getDiceImage(diceNumber);
+					repaint();System.out.println("aaaaaaaa");
+					rollDice = true;
+				}
 			} else {
 				currentClickedX = e.getX();
 				currentClickedY = e.getY();
