@@ -32,10 +32,10 @@ public class Board extends JPanel implements MouseListener{
 		this.addMouseListener(this);
 		this.setFocusable(true);
 		
-		players.add(new Player(true, Figure.Color.RED));
-		players.add(new Player(Figure.Color.BLUE));
-		players.add(new Player(Figure.Color.GREEN));
+		players.add(new Player(true, Figure.Color.GREEN));
 		players.add(new Player(Figure.Color.YELLOW));
+		players.add(new Player(Figure.Color.BLUE));
+		players.add(new Player(Figure.Color.RED));
 		
 		
 	}
