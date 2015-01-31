@@ -11,8 +11,6 @@ import java.util.Random;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
-import org.game.Figure.Color;
-
 @SuppressWarnings("serial")
 public class Board extends JPanel implements MouseListener{
 	
@@ -51,7 +49,8 @@ public class Board extends JPanel implements MouseListener{
 				continue;
 			}
 			
-			rollDice = true;
+			diceNumber = 0;
+			rollDice = false;
 			moved = false;
 			synchronized (this) {
 				do {
@@ -60,8 +59,8 @@ public class Board extends JPanel implements MouseListener{
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
-				} while (diceNumber == 0);
-				rollDice = false;
+				} while (diceNumber == 6);
+				rollDice = true;
 				
 				do {
 					try {
@@ -71,6 +70,8 @@ public class Board extends JPanel implements MouseListener{
 					}
 					
 					for (Figure f : player.getFigures()) {
+						
+						
 						// game logic here
 					}
 				} while (!moved);
@@ -129,12 +130,15 @@ public class Board extends JPanel implements MouseListener{
 		}
 	}
 
-	@Override
+	
 	public void mouseClicked(MouseEvent e) {
 		
 		synchronized (this) {
-			if (rollDice) {	
+			if (!rollDice) {	
 				// roll the dice here
+				dice();
+				getDiceImage(diceNumber);
+				repaint();
 			} else {
 				currentClickedX = e.getX();
 				currentClickedY = e.getY();
