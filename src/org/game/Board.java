@@ -16,11 +16,14 @@ public class Board extends JPanel implements MouseListener{
 	
 	private Image board;
 	private Image dice;
+	private Image mask;
 	private ArrayList<Player> players = new ArrayList<Player>();
 	private int diceNumber = 1;
 	private boolean rollDice;
 	private int currentClickedX;
 	private int currentClickedY;
+	private int currentHoverX;
+	private int currentHoverY;
 	private boolean moved;
 	
 	public Board() {
@@ -121,10 +124,16 @@ public class Board extends JPanel implements MouseListener{
 		}
 	}
 	
+	private void maskImage(){
+		ImageIcon im = new ImageIcon("assets/pawnmask.png");
+		mask = im.getImage();
+	}
+	
 	public void paint(Graphics g) {
 		super.paint(g);
 		g.drawImage(board, 0, 0, null);
 		g.drawImage(dice, Game.cellSize * 6 + 3, Game.cellSize * 6 + 4, null);
+		g.drawImage(mask, currentHoverX, currentHoverY, null);
 		for (Player p : players) {
 			p.paint(g);
 		}
@@ -149,10 +158,13 @@ public class Board extends JPanel implements MouseListener{
 		
 	}
 
-	@Override
+	
+	
 	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
+		currentHoverX = e.getX();
+		currentHoverY = e.getY();
+		maskImage();
+		repaint();
 	}
 
 	@Override
