@@ -17,6 +17,7 @@ public class Board extends JPanel implements MouseListener{
 	
 	private Image board;
 	private Image dice;
+	public Figure.Color color = null;
 	public int currentXY;
 	private ArrayList<Player> players = new ArrayList<Player>();
 	private static int diceNumber = 1;
@@ -44,6 +45,17 @@ public class Board extends JPanel implements MouseListener{
 
 	public void tick() {
 		for (Player player : players) {
+			color = player.getPlayerColor();
+			switch (color){
+			case GREEN: System.out.println("Green player's turn.");
+				break;
+			case YELLOW: System.out.println("Yellow player's turn.");
+				break;
+			case BLUE: System.out.println("Blue player's turn.");
+				break;
+			case RED: System.out.println("Red player's turn.");
+				break;
+		}
 			
 			if (!player.isHuman()) {
 				// AI logic here
@@ -52,35 +64,29 @@ public class Board extends JPanel implements MouseListener{
 			
 			rollDice = false;
 			moved = true;
+			
 			synchronized (this) {
-				do {
-					try {
-						this.wait();
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-				} while (!rollDice);
-				
-				defaultFiguresCount = 0;
-					for (Figure f : player.getFigures()) {
-						if(f.isDefault() && diceNumber != 6) {
-							defaultFiguresCount++;
+				do{	
+					do {
+						try {
+							this.wait();
+						} catch (InterruptedException e) {
+							e.printStackTrace();
 						}
-					}
-					if (defaultFiguresCount == 4) {
-						continue;
-					}
-				
-				do {
-					try {
-						this.wait();
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
+					} while (!rollDice);
 					
+					defaultFiguresCount = 0;
+						for (Figure f : player.getFigures()) {
+							if(f.isDefault() && diceNumber != 6) {
+								defaultFiguresCount++;
+							}
+						}
+						if (defaultFiguresCount == 4) {
+							continue;
+						}
 					
-					
-					for (Figure f : player.getFigures()) {
+
+					/*for (Figure f : player.getFigures()) {
 						// game logic herez
 						boolean cantMove = false;//System.out.println(currentXY);System.out.println(f.getPosition());
 						if (currentXY == f.getPosition()){
@@ -93,20 +99,99 @@ public class Board extends JPanel implements MouseListener{
 								else {
 									checkPosition(f, diceNumber, cantMove);
 									rollDice = false;
-								}
-							}
-							else if (!f.isDefault()){
-									checkPosition(f, diceNumber, cantMove);
-									checkWin(player);
-							} else {
-								rollDice = true;
-								moved = true;
-							}
-						} else if (diceNumber == 6) {
-							moved = false;
+								}*/
+
+					do {
+						try {
+							this.wait();
+						} catch (InterruptedException e) {
+							e.printStackTrace();
 						}
-					}
-				} while (!moved);
+						
+						
+						
+						for (Figure f : player.getFigures()) {
+							// game logic herez
+							boolean cantMove = false;System.out.println(currentXY);System.out.println(f.getPosition());
+							if (currentXY == f.getPosition()){
+								if (diceNumber == 6){
+									if (f.isDefault()){
+										checkPosition(f, diceNumber, cantMove);
+										rollDice = false;
+										//moved = false;
+										//defaultFiguresCount--;
+										break;
+										
+									}
+									else if (f.getNextPosition(diceNumber) < 36){
+										checkPosition(f, diceNumber, cantMove);
+										rollDice = false;
+									}
+									else if (f.getNextPosition(diceNumber) > 35) {
+												color = f.getColor();
+												int lastMoves = 0;
+												switch (color){
+													case GREEN: lastMoves = diceNumber + 5; break;
+													case YELLOW: lastMoves = diceNumber + 9; break;
+													case BLUE: lastMoves = diceNumber + 13; break;
+													case RED: lastMoves = diceNumber + 17; break;
+												}
+												checkPosition(f, lastMoves, cantMove);
+												checkWin(player);
+												rollDice = false;
+									}
+								}
+								else if (!f.isDefault()){
+									
+										/*if (f.getNextPosition(diceNumber) > 35) {
+											int lastMoves = 0;
+											color = f.getColor();
+											switch (color){
+												case GREEN: if (f.getPosition() > 39 ){
+																lastMoves = diceNumber; 
+															} else {
+																lastMoves = diceNumber + 5;
+															}break;
+												case YELLOW: if (f.getPosition() > 43 ){
+																lastMoves = diceNumber; 
+															} else {
+																lastMoves = diceNumber + 9;
+															} break;
+												case BLUE: if (f.getPosition() > 47 ){
+																lastMoves = diceNumber; 
+															} else {
+																lastMoves = diceNumber + 13;
+															}break;
+												case RED: if (f.getPosition() > 51 ){
+																lastMoves = diceNumber; 
+															} else {
+																lastMoves = diceNumber + 17;
+															}break;
+											}
+											checkPosition(f, lastMoves, cantMove);
+											checkWin(player);	
+										}*/
+										checkPosition(f, diceNumber, cantMove);
+										checkWin(player);
+								} else {
+									rollDice = true;
+									moved = true;
+								}
+							} else if (diceNumber == 6) {
+								moved = false;
+
+							}
+						}
+
+					/*}
+				} while (!moved);*/
+
+						
+						if (defaultFiguresCount == 4) {
+							moved = true;
+						} 
+					} while (!moved);
+				} while (!rollDice);
 			}
 			
 			repaint();
@@ -119,7 +204,7 @@ public class Board extends JPanel implements MouseListener{
 
 	private void checkWin(Player player) {
 		int win = 0;
-		Figure.Color color = null;
+		
 		for (Figure f: player.getFigures()){
 			win += f.getPosition();
 			color = f.getColor();
@@ -236,12 +321,23 @@ public class Board extends JPanel implements MouseListener{
 		synchronized (this) {
 			if (!rollDice) {	
 				// roll the dice here
-				if (e.getX() > Game.CELL_SIZE * 6 && e.getX() < Game.CELL_SIZE * 7 && 
-						e.getY() > Game.CELL_SIZE * 6 && e.getY() < Game.CELL_SIZE * 7) {
-					dice();
-					getDiceImage(diceNumber);
-					repaint();
-					rollDice = true;
+				if (diceNumber != 6){
+					if (e.getX() > Game.CELL_SIZE * 6 && e.getX() < Game.CELL_SIZE * 7 && 
+							e.getY() > Game.CELL_SIZE * 6 && e.getY() < Game.CELL_SIZE * 7) {
+						dice();
+						getDiceImage(diceNumber);
+						repaint();
+						rollDice = true;
+					}
+				}
+				else{
+					if (e.getX() > Game.CELL_SIZE * 6 && e.getX() < Game.CELL_SIZE * 7 && 
+							e.getY() > Game.CELL_SIZE * 6 && e.getY() < Game.CELL_SIZE * 7) {
+						dice();
+						getDiceImage(diceNumber);
+						repaint();
+						rollDice = false;
+					}
 				}
 			} else {
 				currentXY = getPositionIndex(e.getX(), e.getY());

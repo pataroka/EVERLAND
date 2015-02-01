@@ -207,9 +207,15 @@ public class Figure extends JPanel{
 		if (currentPosition != startingPosition) {
 			moveCount += diceNumber;
 		}
-		
+
 		System.out.println("afiter " + moveCount);
 		this.position = currentPosition;
+
+		
+		//this.position = (this.position + diceNumber) % 40;
+		//currentCoordinates = positions.get(position);
+		
+
 		//this.currentCoordinates = positions.get(position);
 	}
 	

@@ -5,12 +5,15 @@ import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
+import org.game.Figure.Color;
+
 @SuppressWarnings("serial")
 public class Player extends JPanel {
 
 	private boolean isHuman = false;
 	private ArrayList<Figure> figures = new ArrayList<Figure>();
 	private Figure.Color playerColor;
+	private Color color;
 	
 	public Player(Figure.Color color) {
 		this.playerColor = color;
@@ -67,5 +70,9 @@ public class Player extends JPanel {
 		
 	public void setHuman(boolean isHuman) {
 		this.isHuman = isHuman;
+	}
+	
+	public Color getPlayerColor() {
+		return this.playerColor;
 	}
 }
