@@ -76,13 +76,26 @@ public class Board extends JPanel implements MouseListener{
 									checkPosition(f, 0, cantMove);
 									rollDice = false;
 								}
-								else {
+								else if (f.getPosition() < 30){
 									checkPosition(f, diceNumber, cantMove);
 									rollDice = false;
+								}
+								else {
+									for (Figure fig : player.getFigures()){
+										if (f.getPosition() + diceNumber == fig.getPosition()){
+											break;
+										}
+										else {
+											f.setMove(diceNumber);
+											checkWin(player);
+											rollDice = false;
+										}
+									}
 								}
 							}
 							else if (f.getPosition() != -1){
 									checkPosition(f, diceNumber, cantMove);
+									checkWin(player);
 							}
 							else {
 								rollDice = true;
@@ -97,6 +110,18 @@ public class Board extends JPanel implements MouseListener{
 			
 		}
 		
+	}
+
+
+
+	private void checkWin(Player player) {
+		int win = 0;
+		for (Figure f: player.getFigures()){
+			win += f.getPosition();
+		}
+		if (win == 150){
+			//Player wins
+		}
 	}
 
 
