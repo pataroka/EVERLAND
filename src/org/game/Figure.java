@@ -11,21 +11,24 @@ import javax.swing.JPanel;
 @SuppressWarnings("serial")
 public class Figure extends JPanel{
 
-	private Point currentCoordinates;
 	private int position;
 	private Image pawn;
 	public static ArrayList<Point> positions;
 	enum Color {BLUE, RED, YELLOW, GREEN};
 	private Color color;
-	private Point defaultCoordinates;
 	private int startingPosition;
+	private int defaultPosition;
+	private int mainBoardEndPosition;
+	private int additionalPositionsStart;
+	private int moveCount = 0;
 
-	public Figure(int defaultPosition, Color color, int startPosition) {
+	public Figure(int defaultPosition, Color color, int startPosition, int additionalPosition) {
 		this.color = color;
 		this.position = defaultPosition;
-		this.defaultCoordinates = new Point(Figure.positions.get(defaultPosition));
-		this.currentCoordinates = new Point(defaultCoordinates);
+		this.defaultPosition = defaultPosition;
 		this.startingPosition = startPosition;
+		this.additionalPositionsStart = additionalPosition;
+		this.mainBoardEndPosition = (startPosition + 35) % 40;
 		getImage(color);
 	}
 	
@@ -45,7 +48,7 @@ public class Figure extends JPanel{
 	
 	public void paint(Graphics g) {
 		super.paint(g);
-		g.drawImage(pawn, currentCoordinates.x + 6, currentCoordinates.y - 21, null);
+		g.drawImage(pawn, positions.get(position).x + 6, positions.get(position).y - 21, null);
 	}
 	
 	public static void setBoardArray() {
@@ -161,7 +164,8 @@ public class Figure extends JPanel{
 	}
 	
 	public void setDefault() {
-		this.currentCoordinates = new Point(defaultCoordinates);
+		this.position = this.defaultPosition;
+		this.moveCount = 0;
 		//this.position = 56;
 	}
 		
@@ -169,48 +173,47 @@ public class Figure extends JPanel{
 		return this.color;
 	}
 	
-	public int getX() {
-		return this.currentCoordinates.x;
-	}
-	
-	public int getY() {
-		return this.currentCoordinates.y;
-	}
-	
-	public Point getCurrentCoordinates() {
-		return this.currentCoordinates;
-	}
-	
 	public int getPosition() {
 		return this.position;
 	}
 	
-	public int getNextPosition(int dice) {
-		
-		if (dice == 6 && isDefault()) {
+	public int getNextPosition(int diceNumber) {
+		System.out.println("before " + moveCount);
+		if (diceNumber == 6 && isDefault()) {
+			moveCount = 1;
 			return startingPosition;
 		}
 		
-		return (this.position + dice) % 40;
+		int currentPosition = (this.position + diceNumber) % 40;
+		//if ((position == mainBoardEndPosition || position == mainBoardEndPosition - 1) && diceNumber == 6) {
+			
+		//}
+		if (moveCount + diceNumber <= 36) {
+			return currentPosition;
+		}
+		
+		currentPosition = additionalPositionsStart + (moveCount + diceNumber) - 37;
+		if (currentPosition >= additionalPositionsStart + 4) {
+			return 0;
+		}
+		
+		return currentPosition;
+		
 	}
 	
 	public void setMove(int diceNumber) {
 		
-		if (diceNumber == 6 && isDefault()) {
-			this.currentCoordinates.x = positions.get(startingPosition).x;
-			this.currentCoordinates.y = positions.get(startingPosition).y;
-			this.position = startingPosition;
-			return;
+		int currentPosition = getNextPosition(diceNumber);
+		if (currentPosition != startingPosition) {
+			moveCount += diceNumber;
 		}
 		
-		this.position = (this.position + diceNumber) % 40;
-		currentCoordinates = positions.get(position);
-		
-		
+		System.out.println("afiter " + moveCount);
+		this.position = currentPosition;
 		//this.currentCoordinates = positions.get(position);
 	}
 	
-	public boolean isDefault() {System.out.println(this.currentCoordinates.equals(this.defaultCoordinates));
-		return this.currentCoordinates.equals(this.defaultCoordinates);
+	public boolean isDefault() {
+		return this.position == this.defaultPosition;
 	}
 }

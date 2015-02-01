@@ -32,23 +32,28 @@ public class Player extends JPanel {
 	private void initFigures() {
 		int defaultPosition = 0;
 		int startingPosition = 0;
+		int additionalFieldsTartPosition;
 		if (playerColor == Figure.Color.RED) {
 			defaultPosition = 68;
 			startingPosition = 30;
+			additionalFieldsTartPosition = 52;
 		} else if (playerColor == Figure.Color.GREEN) {
 			defaultPosition = 56;
 			startingPosition = 0;
+			additionalFieldsTartPosition = 40;
 		} else if (playerColor == Figure.Color.BLUE) {
 			defaultPosition = 64;
 			startingPosition = 20;
+			additionalFieldsTartPosition = 48;
 		} else {
 			defaultPosition = 60;
 			startingPosition = 10;
+			additionalFieldsTartPosition = 44;
 		}
 		
 		for (int i = defaultPosition; i < defaultPosition + 4; i++) {
 			
-			this.figures.add(new Figure(i, playerColor, startingPosition));
+			this.figures.add(new Figure(i, playerColor, startingPosition, additionalFieldsTartPosition));
 		}
 	}
 	
