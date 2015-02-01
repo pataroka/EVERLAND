@@ -32,9 +32,9 @@ public class Board extends JPanel implements MouseListener{
 		this.setFocusable(true);
 		
 		players.add(new Player(true, Figure.Color.GREEN));
-		players.add(new Player(Figure.Color.YELLOW));
-		players.add(new Player(Figure.Color.BLUE));
-		players.add(new Player(Figure.Color.RED));
+		players.add(new Player(true, Figure.Color.YELLOW));
+		players.add(new Player(true, Figure.Color.BLUE));
+		players.add(new Player(true, Figure.Color.RED));
 		
 		
 	}
@@ -69,23 +69,20 @@ public class Board extends JPanel implements MouseListener{
 					
 					for (Figure f : player.getFigures()) {
 						// game logic here
+						boolean cantMove = false;
 						if (currentXY == f.getPosition()){
 							if (diceNumber == 6){
 								if (f.getPosition() == -1){
-										f.setMove(0);
-										rollDice = false;
-										moved = true;
+									checkPosition(f, 0, cantMove);
+									rollDice = false;
 								}
 								else {
-									f.setMove(6);
+									checkPosition(f, diceNumber, cantMove);
 									rollDice = false;
-									moved = true;
 								}
 							}
 							else if (f.getPosition() != -1){
-									f.setMove(diceNumber);
-									rollDice = true;
-									moved = true;
+									checkPosition(f, diceNumber, cantMove);
 							}
 							else {
 								rollDice = true;
@@ -100,6 +97,35 @@ public class Board extends JPanel implements MouseListener{
 			
 		}
 		
+	}
+
+
+
+	private void checkPosition(Figure f, int diceNumber, boolean cantMove) {
+		for (Player pl : players){
+			for (Figure fig : pl.getFigures()){
+				fig.getPosition();
+				fig.getColor();
+				if (fig.getPosition() == f.getPosition() + diceNumber && fig.getColor() != f.getColor()) {
+					fig.setDefault();
+					f.setMove(diceNumber);
+					rollDice = true;
+					moved = true;
+					break;
+				} else if (fig.getPosition() == f.getPosition() + diceNumber && fig.getColor() == f.getColor()) {
+					cantMove = true;
+					break;
+				} 
+			}
+			if (moved || cantMove){
+				break;
+			} 
+		}
+		if (!cantMove){
+			f.setMove(diceNumber);
+			rollDice = true;
+			moved = true;
+		}
 	}
 	
 	private void initBoard() {
