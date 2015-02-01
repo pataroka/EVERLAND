@@ -135,11 +135,26 @@ public class Board extends JPanel implements MouseListener{
 
 	private void checkWin(Player player) {
 		int win = 0;
+		Figure.Color color = null;
 		for (Figure f: player.getFigures()){
 			win += f.getPosition();
+			color = f.getColor();
 		}
-		if (win == 150){
+		switch (color){
 			//Player wins
+			case GREEN: if (win == 150){ 
+				System.out.println("Green player wins.");
+				} break;
+			case YELLOW: if (win == 182){ 
+				System.out.println("Yellow player wins.");
+				} break;
+			case BLUE: if (win == 198){ 
+				System.out.println("Blue player wins.");
+				} break;
+			case RED: if (win == 214){ 
+				System.out.println("Red player wins.");
+				} break;
+			default : break;
 		}
 	}
 
