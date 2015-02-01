@@ -11,19 +11,22 @@ import javax.swing.JPanel;
 
 @SuppressWarnings("serial")
 public class Figure extends JPanel{
-	
-	private int x;
-	private int y;
+
+	private Point currentCoordinates;
 	private int position;
 	private Image pawn;
 	public static ArrayList<Point> positions;
 	enum Color {BLUE, RED, YELLOW, GREEN};
 	private Color color;
+	private Point defaultCoordinates;
+	private int startingPosition;
 
-	public Figure(int x, int y, Color color) {
+	public Figure(int defaultPosition, Color color, int startPosition) {
 		this.color = color;
-		this.x = x;
-		this.y = y;
+		this.position = defaultPosition;
+		this.defaultCoordinates = new Point(Figure.positions.get(defaultPosition));
+		this.currentCoordinates = new Point(defaultCoordinates);
+		this.startingPosition = startPosition;
 		getImage(color);
 	}
 	
@@ -43,7 +46,7 @@ public class Figure extends JPanel{
 	
 	public void paint(Graphics g) {
 		super.paint(g);
-		g.drawImage(pawn, x + 6, y - 21, null);
+		g.drawImage(pawn, currentCoordinates.x + 6, currentCoordinates.y - 21, null);
 	}
 	
 	public static void setBoardArray() {
@@ -96,10 +99,71 @@ public class Figure extends JPanel{
 			
 			currentY -= Game.CELL_SIZE; 
 		}
+		
+		currentX = Game.CELL_SIZE * 3;
+		currentY = Game.CELL_SIZE * 3;
+		for (int i = 56; i < 60; i++) {
+			
+			if (i == 57) {
+				currentX += Game.CELL_SIZE;
+			} else if (i == 58){
+				currentY += Game.CELL_SIZE;
+			} else if (i == 59) {
+				currentX -= Game.CELL_SIZE;
+			}
+			
+			positions.add(new Point(currentX, currentY));
+		}
+		
+		currentX = Game.CELL_SIZE * 8;
+		currentY = Game.CELL_SIZE * 3;
+		for (int i = 60; i < 64; i++) {
+			
+			if (i == 61) {
+				currentX += Game.CELL_SIZE;
+			} else if (i == 62){
+				currentY += Game.CELL_SIZE;
+			} else if (i == 63) {
+				currentX -= Game.CELL_SIZE;
+			}
+			
+			positions.add(new Point(currentX, currentY));
+		}
+		
+		currentX = Game.CELL_SIZE * 8;
+		currentY = Game.CELL_SIZE * 8;
+		for (int i = 64; i < 68; i++) {
+			
+			if (i == 65) {
+				currentX += Game.CELL_SIZE;
+			} else if (i == 66){
+				currentY += Game.CELL_SIZE;
+			} else if (i == 67) {
+				currentX -= Game.CELL_SIZE;
+			}
+			
+			positions.add(new Point(currentX, currentY));
+		}
+		
+		currentX = Game.CELL_SIZE * 3;
+		currentY = Game.CELL_SIZE * 8;
+		for (int i = 68; i < 72; i++) {
+			
+			if (i == 69) {
+				currentX += Game.CELL_SIZE;
+			} else if (i == 70){
+				currentY += Game.CELL_SIZE;
+			} else if (i == 71) {
+				currentX -= Game.CELL_SIZE;
+			}
+			
+			positions.add(new Point(currentX, currentY));
+		}
 	}
 	
 	public void setDefault() {
-		
+		this.currentCoordinates = new Point(defaultCoordinates);
+		//this.position = 56;
 	}
 		
 	public Color getColor() {
@@ -107,20 +171,32 @@ public class Figure extends JPanel{
 	}
 	
 	public int getX() {
-		return this.x;
+		return this.currentCoordinates.x;
 	}
 	
 	public int getY() {
-		return this.y;
+		return this.currentCoordinates.y;
+	}
+	
+	public Point getCurrentCoordinates() {
+		return this.currentCoordinates;
 	}
 	
 	public int getPosition() {
 		return this.position;
 	}
 	
-	public void setMove(int position) {
-		this.position = position;
-		this.x = positions.get(position).x;
-		this.y = positions.get(position).y;
+	public void setMove(int diceNumber) {
+		
+		if (diceNumber == 6 && isDefault()) {
+			this.currentCoordinates.x = positions.get(startingPosition).x;
+			this.currentCoordinates.y = positions.get(startingPosition).y;
+		}
+		//this.position = position;
+		//this.currentCoordinates = positions.get(position);
+	}
+	
+	public boolean isDefault() {System.out.println(this.currentCoordinates.equals(this.defaultCoordinates));
+		return this.currentCoordinates.equals(this.defaultCoordinates);
 	}
 }

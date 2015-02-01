@@ -68,13 +68,15 @@ public class Board extends JPanel implements MouseListener{
 					}
 					
 					for (Figure f : player.getFigures()) {
-						// game logic here
-						boolean cantMove = false;
+						// game logic herez
+						boolean cantMove = false;System.out.println(currentXY);System.out.println(f.getPosition());
 						if (currentXY == f.getPosition()){
 							if (diceNumber == 6){
-								if (f.getPosition() == -1){
-									checkPosition(f, 0, cantMove);
-									rollDice = false;
+								if (f.isDefault()){
+									checkPosition(f, diceNumber, cantMove);
+									//f.setMove(diceNumber);
+									break;
+									//rollDice = false;
 								}
 								else if (f.getPosition() < 30){
 									checkPosition(f, diceNumber, cantMove);
@@ -93,7 +95,7 @@ public class Board extends JPanel implements MouseListener{
 									}
 								}
 							}
-							else if (f.getPosition() != -1){
+							else if (!f.isDefault()){
 									checkPosition(f, diceNumber, cantMove);
 									checkWin(player);
 							}
@@ -101,6 +103,8 @@ public class Board extends JPanel implements MouseListener{
 								rollDice = true;
 								moved = true;
 							}
+						} else if (diceNumber == 6) {
+							moved = false;
 						}
 					}
 				} while (!moved);
@@ -216,7 +220,7 @@ public class Board extends JPanel implements MouseListener{
 	}
 	
 	public void mouseClicked(MouseEvent e) {
-		System.out.println(getPositionIndex(e.getX(), e.getY()));
+		//System.out.println(getPositionIndex(e.getX(), e.getY()));
 		synchronized (this) {
 			if (!rollDice) {	
 				// roll the dice here
