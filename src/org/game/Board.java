@@ -17,11 +17,10 @@ public class Board extends JPanel implements MouseListener{
 	
 	private Image board;
 	private Image dice;
+	public int currentXY;
 	private ArrayList<Player> players = new ArrayList<Player>();
 	private static int diceNumber = 1;
 	private boolean rollDice;
-	private int currentClickedX;
-	private int currentClickedY;
 	private boolean moved;
 	
 	public Board() {
@@ -70,7 +69,7 @@ public class Board extends JPanel implements MouseListener{
 					
 					for (Figure f : player.getFigures()) {
 						// game logic here
-						if (rollDice){
+						if (currentXY == f.getPosition()){
 							if (diceNumber == 6){
 								if (f.getPosition() == -1){
 										f.setMove(0);
@@ -93,7 +92,6 @@ public class Board extends JPanel implements MouseListener{
 								moved = true;
 							}
 						}
-						
 					}
 				} while (!moved);
 			}
@@ -179,8 +177,7 @@ public class Board extends JPanel implements MouseListener{
 					rollDice = true;
 				}
 			} else {
-				currentClickedX = e.getX();
-				currentClickedY = e.getY();
+				currentXY = getPositionIndex(e.getX(), e.getY());
 			}
 	
 			this.notify();
