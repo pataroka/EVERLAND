@@ -22,6 +22,7 @@ public class Board extends JPanel implements MouseListener{
 	private static int diceNumber = 1;
 	private boolean rollDice;
 	private boolean moved;
+	private int defaultFiguresCount;
 	
 	public Board() {
 		
@@ -60,12 +61,24 @@ public class Board extends JPanel implements MouseListener{
 					}
 				} while (!rollDice);
 				
+				defaultFiguresCount = 0;
+					for (Figure f : player.getFigures()) {
+						if(f.isDefault() && diceNumber != 6) {
+							defaultFiguresCount++;
+						}
+					}
+					if (defaultFiguresCount == 4) {
+						continue;
+					}
+				
 				do {
 					try {
 						this.wait();
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
+					
+					
 					
 					for (Figure f : player.getFigures()) {
 						// game logic herez
@@ -74,7 +87,6 @@ public class Board extends JPanel implements MouseListener{
 							if (diceNumber == 6){
 								if (f.isDefault()){
 									checkPosition(f, diceNumber, cantMove);
-									//f.setMove(diceNumber);
 									break;
 									//rollDice = false;
 								}
@@ -98,14 +110,17 @@ public class Board extends JPanel implements MouseListener{
 							else if (!f.isDefault()){
 									checkPosition(f, diceNumber, cantMove);
 									checkWin(player);
-							}
-							else {
+							} else {
 								rollDice = true;
 								moved = true;
 							}
 						} else if (diceNumber == 6) {
 							moved = false;
 						}
+					}
+					
+					if (defaultFiguresCount == 4) {
+						moved = true;
 					}
 				} while (!moved);
 			}
@@ -135,13 +150,13 @@ public class Board extends JPanel implements MouseListener{
 			for (Figure fig : pl.getFigures()){
 				fig.getPosition();
 				fig.getColor();
-				if (fig.getPosition() == f.getPosition() + diceNumber && fig.getColor() != f.getColor()) {
+				if (fig.getPosition() == f.getNextPosition(diceNumber) && fig.getColor() != f.getColor()) {
 					fig.setDefault();
 					f.setMove(diceNumber);
 					rollDice = true;
 					moved = true;
 					break;
-				} else if (fig.getPosition() == f.getPosition() + diceNumber && fig.getColor() == f.getColor()) {
+				} else if (fig.getPosition() == f.getNextPosition(diceNumber) && fig.getColor() == f.getColor()) {
 					cantMove = true;
 					break;
 				} 
@@ -228,7 +243,7 @@ public class Board extends JPanel implements MouseListener{
 						e.getY() > Game.CELL_SIZE * 6 && e.getY() < Game.CELL_SIZE * 7) {
 					dice();
 					getDiceImage(diceNumber);
-					repaint();System.out.println("aaaaaaaa");
+					repaint();
 					rollDice = true;
 				}
 			} else {

@@ -186,13 +186,28 @@ public class Figure extends JPanel{
 		return this.position;
 	}
 	
+	public int getNextPosition(int dice) {
+		
+		if (dice == 6 && isDefault()) {
+			return startingPosition;
+		}
+		
+		return (this.position + dice) % 40;
+	}
+	
 	public void setMove(int diceNumber) {
 		
 		if (diceNumber == 6 && isDefault()) {
 			this.currentCoordinates.x = positions.get(startingPosition).x;
 			this.currentCoordinates.y = positions.get(startingPosition).y;
+			this.position = startingPosition;
+			return;
 		}
-		//this.position = position;
+		
+		this.position = (this.position + diceNumber) % 40;
+		currentCoordinates = positions.get(position);
+		
+		
 		//this.currentCoordinates = positions.get(position);
 	}
 	
