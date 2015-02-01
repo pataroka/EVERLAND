@@ -203,6 +203,7 @@ public class Figure extends JPanel{
 			return;
 		}
 		
+		
 		this.position = (this.position + diceNumber) % 40;
 		currentCoordinates = positions.get(position);
 		

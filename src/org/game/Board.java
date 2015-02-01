@@ -107,24 +107,54 @@ public class Board extends JPanel implements MouseListener{
 										break;
 										
 									}
-									else if (f.getPosition() < 30){
+									else if (f.getNextPosition(diceNumber) < 36){
 										checkPosition(f, diceNumber, cantMove);
 										rollDice = false;
 									}
-									else {
-										for (Figure fig : player.getFigures()){
-											if (f.getPosition() + diceNumber == fig.getPosition()){
-												break;
-											}
-											else {
-												f.setMove(diceNumber);
+									else if (f.getNextPosition(diceNumber) > 35) {
+												color = f.getColor();
+												int lastMoves = 0;
+												switch (color){
+													case GREEN: lastMoves = diceNumber + 5; break;
+													case YELLOW: lastMoves = diceNumber + 9; break;
+													case BLUE: lastMoves = diceNumber + 13; break;
+													case RED: lastMoves = diceNumber + 17; break;
+												}
+												checkPosition(f, lastMoves, cantMove);
 												checkWin(player);
 												rollDice = false;
-											}
-										}
 									}
 								}
 								else if (!f.isDefault()){
+									
+										if (f.getNextPosition(diceNumber) > 35) {
+											int lastMoves = 0;
+											color = f.getColor();
+											switch (color){
+												case GREEN: if (f.getPosition() > 39 ){
+																lastMoves = diceNumber; 
+															} else {
+																lastMoves = diceNumber + 5;
+															}break;
+												case YELLOW: if (f.getPosition() > 43 ){
+																lastMoves = diceNumber; 
+															} else {
+																lastMoves = diceNumber + 9;
+															} break;
+												case BLUE: if (f.getPosition() > 47 ){
+																lastMoves = diceNumber; 
+															} else {
+																lastMoves = diceNumber + 13;
+															}break;
+												case RED: if (f.getPosition() > 51 ){
+																lastMoves = diceNumber; 
+															} else {
+																lastMoves = diceNumber + 17;
+															}break;
+											}
+											checkPosition(f, lastMoves, cantMove);
+											checkWin(player);	
+										}
 										checkPosition(f, diceNumber, cantMove);
 										checkWin(player);
 								} else {
