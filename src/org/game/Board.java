@@ -29,6 +29,8 @@ public class Board extends JPanel implements MouseListener{
 	private Figure forRemove;;
 	private int defaultFiguresCount;
 	private int figuresCantMoveCount;
+	private Player currentPlayer;
+	private Color currentPlayerColor;
 	
 	public Board() {
 		
@@ -52,16 +54,28 @@ public class Board extends JPanel implements MouseListener{
 		for (int i = 0; i < players.size(); i++) {
 			color = players.get(i).getPlayerColor();
 			switch (color){
-			case GREEN: paintComponent (getGraphics(), players.get(i), Color.GREEN); System.out.println("Green player's turn.");
+			case GREEN: 
+				this.currentPlayer = players.get(i);
+				this.currentPlayerColor = Color.GREEN;
+				System.out.println("Green player's turn.");
 				break;
-			case YELLOW: paintComponent (getGraphics(), players.get(i), Color.YELLOW); System.out.println("Yellow player's turn.");
+			case YELLOW: 
+				this.currentPlayer = players.get(i);
+				this.currentPlayerColor = Color.YELLOW;
+				System.out.println("Yellow player's turn.");
 				break;
-			case BLUE: paintComponent (getGraphics(), players.get(i), Color.BLUE); System.out.println("Blue player's turn.");
+			case BLUE: 
+				this.currentPlayer = players.get(i);
+				this.currentPlayerColor = Color.BLUE;
+				System.out.println("Blue player's turn.");
 				break;
-			case RED: paintComponent (getGraphics(), players.get(i), Color.RED); System.out.println("Red player's turn.");
+			case RED: 
+				this.currentPlayer = players.get(i);
+				this.currentPlayerColor = Color.RED;
+				System.out.println("Red player's turn.");
 				break;
 			}
-			
+			repaint();
 			if (!players.get(i).isHuman()) {
 				// AI logic here
 				
@@ -137,7 +151,7 @@ public class Board extends JPanel implements MouseListener{
 				} 
 			//} while (!endTurn);
 			
-			repaint();
+			//repaint();
 			
 		}
 		
@@ -264,12 +278,11 @@ public class Board extends JPanel implements MouseListener{
 		}
 	}
 	
-	public void paintComponent(Graphics g, Player player, Color col){
-		super.paintComponent(g);
+	public void paintComponent(Graphics g){
 		Graphics2D g2 = (Graphics2D) g;
-		g2.setColor(col);
+		g2.setColor(this.currentPlayerColor);
 		g2.setFont(new Font("Arial", Font.PLAIN, 24));
-		String turn = player.getPlayerColor() + " player's turn";
+		String turn = this.currentPlayer.getPlayerColor() + " player's turn";
 		g2.drawString(turn, Game.CELL_SIZE * 4, 34);
 	}
 	
@@ -280,6 +293,8 @@ public class Board extends JPanel implements MouseListener{
 		for (Player p : players) {
 			p.paint(g);
 		}
+		
+		paintComponent(g);
 	}
 
 	private int getPositionIndex(int x, int y) {

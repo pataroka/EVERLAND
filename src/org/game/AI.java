@@ -3,7 +3,7 @@ import java.awt.Graphics;
 
 
 public class AI {
-	
+/*	
 	
 	diceNumber : Board.getDiceNumber();
 	boolean cantMove = false;
@@ -50,5 +50,5 @@ public class AI {
 	
 	}
 
-}	
+}	*/
 }
