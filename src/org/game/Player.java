@@ -60,6 +60,10 @@ public class Player extends JPanel {
 		}
 	}
 	
+	public void removeFigure(Figure f) {
+		this.figures.remove(f);
+	}
+	
 	public ArrayList<Figure> getFigures() {
 		return this.figures;
 	}

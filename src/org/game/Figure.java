@@ -179,13 +179,15 @@ public class Figure extends JPanel{
 	
 	public int getNextPosition(int diceNumber) {
 
-		System.out.println("before " + moveCount);
+		//System.out.println("before " + moveCount);
 		if (diceNumber == 6 && this.isDefault()) {
 
 		//System.out.println("before " + moveCount);
 
 			moveCount = 1;
 			return startingPosition;
+		} else if (this.isDefault()) {
+			return this.position;
 		}
 		
 		int currentPosition = (this.position + diceNumber) % 40;
@@ -201,7 +203,7 @@ public class Figure extends JPanel{
 		//	return 0;
 		//}
 		
-		if (currentPosition == additionalPositionsStart + 1) {
+		if (currentPosition == additionalPositionsStart + 4) {
 			return -1;
 		}
 		
