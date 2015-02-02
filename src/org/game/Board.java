@@ -65,7 +65,7 @@ public class Board extends JPanel implements MouseListener{
 			}
 			
 			rollDice = false;
-			moved = true;
+			moved = false;
 			endTurn = false;
 			//do {
 				synchronized (this) {
@@ -101,7 +101,7 @@ public class Board extends JPanel implements MouseListener{
 							if (currentXY == f.getPosition()){
 								if (diceNumber == 6){
 									//if (f.isDefault()){
-										checkPosition(f, diceNumber, cantMove);
+										checkPosition(f, diceNumber, cantMove, players.get(i));
 										i--;
 										//rollDice = false;
 									//} else {
@@ -111,7 +111,7 @@ public class Board extends JPanel implements MouseListener{
 								} else if (f.isDefault()){
 									continue;
 								} else{
-									checkPosition(f, diceNumber, cantMove);
+									checkPosition(f, diceNumber, cantMove, players.get(i));
 									//rollDice = true;
 								}
 							}	
@@ -130,7 +130,10 @@ public class Board extends JPanel implements MouseListener{
 
 
 	private void checkWin(Player player) {
-		int win = 0;
+		if (player.getFigures().isEmpty()) {
+			System.out.println(player.getColorModel() + "is winner");
+		}
+		/*int win = 0;
 		
 		for (Figure f: player.getFigures()){
 			win += f.getPosition();
@@ -151,12 +154,12 @@ public class Board extends JPanel implements MouseListener{
 				System.out.println("Red player wins.");
 				} break;
 			default : break;
-		}
+		}*/
 	}
 
 
 
-	private void checkPosition(Figure f, int diceNumber, boolean cantMove) {
+	private void checkPosition(Figure f, int diceNumber, boolean cantMove, Player p) {
 		for (Player pl : players){
 
 			/*for (Figure fig : pl.getFigures()){
@@ -180,12 +183,18 @@ public class Board extends JPanel implements MouseListener{
 				} 
 				
 			}
-			if (moved || cantMove){
-				break;
-			} 
+			//if (moved || cantMove){
+			//	break;
+			//} 
 		}
 		if (!cantMove){
-			f.setMove(diceNumber);
+			if (f.getNextPosition(diceNumber) == -1) {
+				p.remove(f);
+				checkWin(p);
+			} else {
+				f.setMove(diceNumber);
+			}
+			
 			moved = true;
 		}
 	}

@@ -202,7 +202,7 @@ public class Figure extends JPanel{
 		//}
 		
 		if (currentPosition == additionalPositionsStart + 1) {
-			//win return -1;
+			return -1;
 		}
 		
 		if (currentPosition > additionalPositionsStart + 4) {
