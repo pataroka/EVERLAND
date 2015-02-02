@@ -23,6 +23,7 @@ public class Board extends JPanel implements MouseListener{
 	private static int diceNumber = 1;
 	private boolean rollDice;
 	private boolean moved;
+	private boolean endTurn;
 	private int defaultFiguresCount;
 	
 	public Board() {
@@ -55,7 +56,7 @@ public class Board extends JPanel implements MouseListener{
 				break;
 			case RED: System.out.println("Red player's turn.");
 				break;
-		}
+			}
 			
 			if (!player.isHuman()) {
 				// AI logic here
@@ -65,9 +66,10 @@ public class Board extends JPanel implements MouseListener{
 			
 			rollDice = false;
 			moved = true;
-			
-			synchronized (this) {
-				do{	
+			endTurn = false;
+			//do {
+				synchronized (this) {
+					
 					do {
 						try {
 							this.wait();
@@ -77,31 +79,15 @@ public class Board extends JPanel implements MouseListener{
 					} while (!rollDice);
 					
 					defaultFiguresCount = 0;
-						for (Figure f : player.getFigures()) {
-							if(f.isDefault() && diceNumber != 6) {
-								defaultFiguresCount++;
-							}
+					for (Figure f : player.getFigures()) {
+						if(f.isDefault()) {
+							defaultFiguresCount++;
 						}
-						if (defaultFiguresCount == 4) {
-							continue;
-						}
+					}
+					if (defaultFiguresCount == 4 && diceNumber != 6) {
+						continue;
+					}
 					
-
-					/*for (Figure f : player.getFigures()) {
-						// game logic herez
-						boolean cantMove = false;//System.out.println(currentXY);System.out.println(f.getPosition());
-						if (currentXY == f.getPosition()){
-							if (diceNumber == 6){
-								if (f.isDefault()){
-									checkPosition(f, diceNumber, cantMove);
-									break;
-									//rollDice = false;
-								}
-								else {
-									checkPosition(f, diceNumber, cantMove);
-									rollDice = false;
-								}*/
-
 					do {
 						try {
 							this.wait();
@@ -109,91 +95,31 @@ public class Board extends JPanel implements MouseListener{
 							e.printStackTrace();
 						}
 						
-						
-						
 						for (Figure f : player.getFigures()) {
 							// game logic herez
-							boolean cantMove = false;System.out.println(currentXY);System.out.println(f.getPosition());
+							boolean cantMove = false; //System.out.println(currentXY); System.out.println(f.getPosition());
 							if (currentXY == f.getPosition()){
 								if (diceNumber == 6){
 									if (f.isDefault()){
 										checkPosition(f, diceNumber, cantMove);
 										rollDice = false;
-										//moved = false;
-										//defaultFiguresCount--;
-										break;
-										
-									}
-									else if (f.getNextPosition(diceNumber) < 36){
+									} else {
 										checkPosition(f, diceNumber, cantMove);
 										rollDice = false;
 									}
-									else if (f.getNextPosition(diceNumber) > 35) {
-												color = f.getColor();
-												int lastMoves = 0;
-												switch (color){
-													case GREEN: lastMoves = diceNumber + 5; break;
-													case YELLOW: lastMoves = diceNumber + 9; break;
-													case BLUE: lastMoves = diceNumber + 13; break;
-													case RED: lastMoves = diceNumber + 17; break;
-												}
-												checkPosition(f, lastMoves, cantMove);
-												checkWin(player);
-												rollDice = false;
+								} else if (f.isDefault()){
+									continue;
 									}
-								}
-								else if (!f.isDefault()){
-									
-										/*if (f.getNextPosition(diceNumber) > 35) {
-											int lastMoves = 0;
-											color = f.getColor();
-											switch (color){
-												case GREEN: if (f.getPosition() > 39 ){
-																lastMoves = diceNumber; 
-															} else {
-																lastMoves = diceNumber + 5;
-															}break;
-												case YELLOW: if (f.getPosition() > 43 ){
-																lastMoves = diceNumber; 
-															} else {
-																lastMoves = diceNumber + 9;
-															} break;
-												case BLUE: if (f.getPosition() > 47 ){
-																lastMoves = diceNumber; 
-															} else {
-																lastMoves = diceNumber + 13;
-															}break;
-												case RED: if (f.getPosition() > 51 ){
-																lastMoves = diceNumber; 
-															} else {
-																lastMoves = diceNumber + 17;
-															}break;
-											}
-											checkPosition(f, lastMoves, cantMove);
-											checkWin(player);	
-										}*/
-										checkPosition(f, diceNumber, cantMove);
-										checkWin(player);
-								} else {
+									else{
+									checkPosition(f, diceNumber, cantMove);
 									rollDice = true;
-									moved = true;
 								}
-							} else if (diceNumber == 6) {
-								moved = false;
-
-							}
+							}	
 						}
-
-					/*}
-				} while (!moved);*/
-
-						
-						if (defaultFiguresCount == 4) {
-							moved = true;
-						} 
 					} while (!moved);
-				} while (!rollDice);
-			}
+					endTurn = true;
+				} 
+			//} while (!endTurn);
 			
 			repaint();
 			
@@ -232,17 +158,17 @@ public class Board extends JPanel implements MouseListener{
 
 	private void checkPosition(Figure f, int diceNumber, boolean cantMove) {
 		for (Player pl : players){
-			for (Figure fig : pl.getFigures()){System.out.println(!fig.getColor().equals(f.getColor()));
-				if (fig.getPosition() == f.getNextPosition(diceNumber) && !fig.getColor().equals(f.getColor())) {
+			for (Figure fig : pl.getFigures()) {      System.out.println("color check " + (fig.getColor() != f.getColor()));
+				if (fig.getPosition() == f.getNextPosition(diceNumber) && fig.getColor() != f.getColor()) {
 					fig.setDefault();
-					f.setMove(diceNumber);System.out.println(fig.getPosition());System.out.println(f.getNextPosition(diceNumber));
-					rollDice = true;
+					f.setMove(diceNumber);//System.out.println(fig.getPosition());//System.out.println(f.getNextPosition(diceNumber));
 					moved = true;
 					break;
-				} else if (fig.getPosition() == f.getNextPosition(diceNumber) && fig.getColor().equals(f.getColor())) {
+				} else if (fig.getPosition() == f.getNextPosition(diceNumber) && fig.getColor() == f.getColor()) {
 					cantMove = true;
 					break;
 				} 
+				
 			}
 			if (moved || cantMove){
 				break;
@@ -250,7 +176,6 @@ public class Board extends JPanel implements MouseListener{
 		}
 		if (!cantMove){
 			f.setMove(diceNumber);
-			rollDice = true;
 			moved = true;
 		}
 	}
@@ -318,7 +243,7 @@ public class Board extends JPanel implements MouseListener{
 	}
 	
 	public void mouseClicked(MouseEvent e) {
-		System.out.println(getPositionIndex(e.getX(), e.getY()));
+		//System.out.println(getPositionIndex(e.getX(), e.getY()));
 		synchronized (this) {
 			if (!rollDice) {	
 				// roll the dice here
