@@ -59,6 +59,7 @@ public class Board extends JPanel implements MouseListener{
 			
 			if (!player.isHuman()) {
 				// AI logic here
+				
 				continue;
 			}
 			

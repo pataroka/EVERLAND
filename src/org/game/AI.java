@@ -2,7 +2,7 @@ package org.game;
 import java.awt.Graphics;
 
 
-public class _Arteficial_Intelligence {
+public class AI {
 	
 	
 	diceNumber : Board.getDiceNumber();
