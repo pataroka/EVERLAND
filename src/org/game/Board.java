@@ -102,7 +102,10 @@ public class Board extends JPanel implements MouseListener{
 								if (diceNumber == 6){
 									//if (f.isDefault()){
 										checkPosition(f, diceNumber, cantMove, players.get(i));
-										i--;
+										if (moved) {
+											i--;
+										}
+										
 										//rollDice = false;
 									//} else {
 										//checkPosition(f, diceNumber, cantMove);
@@ -179,6 +182,7 @@ public class Board extends JPanel implements MouseListener{
 					break;
 				} else if (fig.getPosition() == f.getNextPosition(diceNumber) && fig.getColor() == f.getColor()) {
 					cantMove = true;
+					moved = false;
 					break;
 				} 
 				
