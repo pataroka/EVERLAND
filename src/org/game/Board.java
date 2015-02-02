@@ -1,7 +1,10 @@
 package org.game;
 
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
@@ -48,13 +51,13 @@ public class Board extends JPanel implements MouseListener{
 		for (int i = 0; i < players.size(); i++) {
 			color = players.get(i).getPlayerColor();
 			switch (color){
-			case GREEN: System.out.println("Green player's turn.");
+			case GREEN: paintComponent (getGraphics(), players.get(i), Color.GREEN); System.out.println("Green player's turn.");
 				break;
-			case YELLOW: System.out.println("Yellow player's turn.");
+			case YELLOW: paintComponent (getGraphics(), players.get(i), Color.YELLOW); System.out.println("Yellow player's turn.");
 				break;
-			case BLUE: System.out.println("Blue player's turn.");
+			case BLUE: paintComponent (getGraphics(), players.get(i), Color.BLUE); System.out.println("Blue player's turn.");
 				break;
-			case RED: System.out.println("Red player's turn.");
+			case RED: paintComponent (getGraphics(), players.get(i), Color.RED); System.out.println("Red player's turn.");
 				break;
 			}
 			
@@ -238,6 +241,15 @@ public class Board extends JPanel implements MouseListener{
 			case 5: dice = id5.getImage(); break;
 			case 6: dice = id6.getImage(); break;
 		}
+	}
+	
+	public void paintComponent(Graphics g, Player player, Color col){
+		super.paintComponent(g);
+		Graphics2D g2 = (Graphics2D) g;
+		g2.setColor(col);
+		g2.setFont(new Font("Arial", Font.PLAIN, 24));
+		String turn = player.getPlayerColor() + " player's turn";
+		g2.drawString(turn, Game.CELL_SIZE * 4, 34);
 	}
 	
 	public void paint(Graphics g) {
