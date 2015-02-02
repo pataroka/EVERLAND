@@ -231,10 +231,12 @@ public class Board extends JPanel implements MouseListener{
 
 	private void checkPosition(Figure f, int diceNumber, boolean cantMove) {
 		for (Player pl : players){
-			for (Figure fig : pl.getFigures()){System.out.println(!fig.getColor().equals(f.getColor()));
+			for (Figure fig : pl.getFigures()){
+				System.out.println("for default" + fig.getPosition());
+				System.out.println("current" + f.getNextPosition(diceNumber));
 				if (fig.getPosition() == f.getNextPosition(diceNumber) && !fig.getColor().equals(f.getColor())) {
 					fig.setDefault();
-					f.setMove(diceNumber);System.out.println(fig.getPosition());System.out.println(f.getNextPosition(diceNumber));
+					//f.setMove(diceNumber);
 					rollDice = true;
 					moved = true;
 					break;
