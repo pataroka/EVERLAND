@@ -18,7 +18,6 @@ public class Figure extends JPanel{
 	private Color color;
 	private int startingPosition;
 	private int defaultPosition;
-	private int mainBoardEndPosition;
 	private int additionalPositionsStart;
 	private int moveCount = 0;
 
@@ -28,7 +27,6 @@ public class Figure extends JPanel{
 		this.defaultPosition = defaultPosition;
 		this.startingPosition = startPosition;
 		this.additionalPositionsStart = additionalPosition;
-		this.mainBoardEndPosition = (startPosition + 35) % 40;
 		getImage(color);
 	}
 	
@@ -51,10 +49,10 @@ public class Figure extends JPanel{
 		g.drawImage(pawn, positions.get(position).x + 6, positions.get(position).y - 21, null);
 	}
 	
-	public static void setBoardArray() {
-		positions = new ArrayList<Point>();
+	private static void setMainBoardFields() {
 		int currentX = Game.CELL_SIZE;
 		int currentY = Game.CELL_SIZE;
+		
 		for (int i = 0; i < 40; i++) {
 			
 			positions.add(new Point(currentX, currentY));
@@ -69,6 +67,11 @@ public class Figure extends JPanel{
 				currentY -= Game.CELL_SIZE;
 			}
 		}
+	}
+	
+	private static void setAdditionalFields() {
+		int currentX = Game.CELL_SIZE;
+		int currentY = Game.CELL_SIZE;
 		
 		currentX = Game.CELL_SIZE * 2;
 		for (int i = 40; i < 44; i++) {
@@ -101,9 +104,11 @@ public class Figure extends JPanel{
 			
 			currentY -= Game.CELL_SIZE; 
 		}
-		
-		currentX = Game.CELL_SIZE * 3;
-		currentY = Game.CELL_SIZE * 3;
+	}
+	
+	private static void setDefaultFields() {
+		int currentX = Game.CELL_SIZE * 3;
+		int currentY = Game.CELL_SIZE * 3;
 		for (int i = 56; i < 60; i++) {
 			
 			if (i == 57) {
@@ -163,10 +168,16 @@ public class Figure extends JPanel{
 		}
 	}
 	
+	public static void setBoardArray() {
+		positions = new ArrayList<Point>();
+		setMainBoardFields();
+		setAdditionalFields();
+		setDefaultFields();
+	}
+	
 	public void setDefault() {
 		this.position = this.defaultPosition;
 		this.moveCount = 0;
-		//this.position = 56;
 	}
 		
 	public Color getColor() {
@@ -194,6 +205,7 @@ public class Figure extends JPanel{
 		//if ((position == mainBoardEndPosition || position == mainBoardEndPosition - 1) && diceNumber == 6) {
 			
 		//}
+		
 		if (moveCount + diceNumber <= 36) {
 			return currentPosition;
 		}
