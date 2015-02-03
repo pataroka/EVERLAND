@@ -107,9 +107,16 @@ public class Board extends JPanel implements MouseListener {
 						}
 					} while (!rollDice);
 				} else {
+					try {
+						Thread.sleep(500);
+					} catch (InterruptedException e) {
+						Thread.currentThread().interrupt();
+					}
 					dice();
+					
 				}
 
+				repaint();
 				if (!playerHasMove(players.get(i))) {
 					continue;
 				}
@@ -160,14 +167,20 @@ public class Board extends JPanel implements MouseListener {
 	}
 
 	private boolean checkForFigureWithSameColor(Player p, Figure f) {
-		boolean cantMove = f.getNextPosition(diceNumber) != f.getPosition();
+		/*boolean cantMove = f.getNextPosition(diceNumber) != f.getPosition();
 		for (Figure fig : p.getFigures()) {
-			if (fig.getPosition() != f.getNextPosition(diceNumber) && cantMove) {
+			if (fig.getPosition() != f.getNextPosition(diceNumber) && cantMove && (fig != f || p.getFigures().size() == 1)) {
 				return false;
+			}
+		}*/
+		
+		for (Figure fig : p.getFigures()) {
+			if (fig.getPosition() == f.getNextPosition(diceNumber)) {
+				return true;
 			}
 		}
 
-		return true;
+		return false;
 	}
 
 	private void checkPosition(Figure f, int diceNumber, boolean cantMove, Player p) {
