@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.Random;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
@@ -14,9 +15,11 @@ import javax.swing.JPanel;
 public class StartScreen extends JPanel implements MouseListener {
 	
 	private Image startScreen;
-	private Image buttonUnclicked;
-	private Image buttonClicked;
+	public static boolean unclicked;
+	private static Image button;
 	public int buttonX;
+	public int playerCount;
+	public int humanCount;
 
 	public StartScreen() {
 	
@@ -24,12 +27,12 @@ public class StartScreen extends JPanel implements MouseListener {
 	
 		this.addMouseListener(this);
 		this.setFocusable(true);
-		
 	}
 	
 	private void initStartScreen() {
 
 		loadStartScreen();
+		getButtonImage(unclicked);
 		int width = startScreen.getWidth(this);
 		int height = startScreen.getHeight(this);
 		setPreferredSize(new Dimension(width, height));
@@ -37,44 +40,38 @@ public class StartScreen extends JPanel implements MouseListener {
 	
 	private void loadStartScreen() {
 		ImageIcon ii = new ImageIcon("assets/START_SCREEN.png");
-		ImageIcon ij = new ImageIcon("assets/ButtonClicked.png");
-		ImageIcon ik = new ImageIcon("assets/ButtonUnclicked.png");		
 		startScreen = ii.getImage();
-		buttonClicked = ij.getImage();
-		buttonUnclicked = ik.getImage();
 		
 	}
+	
+	public static void button() {
+		getButtonImage(unclicked);
+
+	}
+
+	public static void getButtonImage(boolean unclicked) {
+		ImageIcon ij = new ImageIcon("assets/ButtonClicked.png");
+		ImageIcon ik = new ImageIcon("assets/ButtonUnclicked.png");	
+
+		if (unclicked) {
+			button = ij.getImage();
+		} else {
+			button = ik.getImage();
+		}
+	}
+	
 	public void paint(Graphics g) {
 		super.paint(g);
 		g.drawImage(startScreen, 0, 0, null);
 		for (int i = 90; i <= 370; i+=130){
-			g.drawImage(buttonUnclicked, i , 305, null);
+			g.drawImage(button, i , 305, null);
 		}
 		for (int i = 45; i <= 430; i+=120){
-			g.drawImage(buttonUnclicked, i , 505, null);
-		}
-//		paintComponent(g, buttonX);
-//		paintComponent2(g, buttonX);
-	}
-	
-	public void paintComponent(Graphics g, int x) {
-		super.paint(g);
-		switch (x){
-			case 90 : g.drawImage(buttonClicked, 90, 305, null); break;
-			case 220 : g.drawImage(buttonClicked, 220, 305, null); break;
-			case 350 : g.drawImage(buttonClicked, 350, 305, null); break;
+			g.drawImage(button, i , 505, null);
 		}
 	}
 	
-	public void paintComponent2(Graphics g, int x) {
-		super.paint(g);
-		switch (x){
-			case 45 : g.drawImage(buttonClicked, 45, 505, null); break;
-			case 165 : g.drawImage(buttonClicked, 165, 505, null); break;
-			case 285 : g.drawImage(buttonClicked, 285, 505, null); break;
-			case 405 : g.drawImage(buttonClicked, 405, 505, null); break;
-		}
-	}
+	
 	
 	private void choosePlayerCount(){
 		synchronized (this) {
@@ -86,6 +83,12 @@ public class StartScreen extends JPanel implements MouseListener {
 					e.printStackTrace();
 				}
 			} while (!countSelected);
+			
+			switch (buttonX){
+				case 90 : playerCount = 2; break;
+				case 220 : playerCount = 3; break;
+				case 350 : playerCount = 4; break;
+			}
 		}
 		
 	}
@@ -101,6 +104,13 @@ public class StartScreen extends JPanel implements MouseListener {
 					e.printStackTrace();
 				}
 			} while (!humanSelected);
+			
+			switch (buttonX){
+				case 45 : humanCount = 1; break;
+				case 165 : humanCount = 2; break;
+				case 285 : humanCount = 3; break;
+				case 405 : humanCount = 4; break;
+			}
 		}
 		
 		
