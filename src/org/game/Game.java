@@ -1,51 +1,27 @@
 package org.game;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-
-import javax.swing.JButton;
 import javax.swing.JFrame;
 
 @SuppressWarnings("serial")
 public class Game extends JFrame{
 	
-	static final int WIDTH = 590;
-	static final int HEIGHT = 590;
+	static final int WIDTH = 597;
+	static final int HEIGHT = 620;
 	static final int CELL_SIZE = 45;
 	private Board board;
 	private StartScreen startScreen;
-	private ActionListener listener;
-	private int countAI = 0;
-	private boolean run = false;
+	private boolean run;
 
 	public Game() {
-		
-
-		/*listener = new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if ((e.getSource()) == startScreen.btn) {
-					//countAI = Integer.parseInt(startScreen.btn.getText());
-					//board.setPlayers(countAI);
-					
-					startScreen.setVisible(false);
-					board.setVisible(true);
-					initboadr();
-					run=true;
-				}
-			}
-		};*/
-		
-		//initStartScreen();
-//		initBoard();
 		this.setStartScreen();
-		
 	}
 	
 	public void setStartScreen() {
+		run = false;
+		if (board != null) {
+			this.remove(board);
+		}
+		
 		startScreen = new StartScreen(this);
 		startScreen.setVisible(true);
 		init();
@@ -55,9 +31,9 @@ public class Game extends JFrame{
 	public void setBoard() {
 		startScreen.setVisible(false);
 		this.remove(startScreen);
-		board = new Board(startScreen.playerCount, startScreen.humanCount);
+		board = new Board(startScreen.playerCount, startScreen.humanCount, this);
 		board.setVisible(true);
-		run=true;
+		run = true;
 		initBoard();
 	}
 	

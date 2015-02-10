@@ -33,9 +33,11 @@ public class Board extends JPanel implements MouseListener {
 	private String turnPlayerLabel;
 	private Player playerToRemoveFrom;
 	private Random random = new Random();
+	private Game game;
 
-	public Board(int playerCount, int humanPlayerCount) {
+	public Board(int playerCount, int humanPlayerCount, Game game) {
 
+		this.game = game;
 		initBoard();
 		Figure.setBoardArray();
 
@@ -110,7 +112,7 @@ public class Board extends JPanel implements MouseListener {
 					} while (!rollDice);
 				} else {
 					try {
-						Thread.sleep(200);
+						Thread.sleep(400);
 					} catch (InterruptedException e) {
 						Thread.currentThread().interrupt();
 					}
@@ -165,7 +167,7 @@ public class Board extends JPanel implements MouseListener {
 	private void checkWin(Player player) {
 		if (player.getFigures().isEmpty()) {
 			gameEnd = true;
-			Main.main(new String[1]);
+			game.setStartScreen();
 		}
 	}
 

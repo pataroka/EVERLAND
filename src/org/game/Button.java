@@ -5,13 +5,12 @@ import java.awt.Image;
 
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
-import javax.swing.JPanel;
 
 @SuppressWarnings("serial")
 public class Button extends JComponent{
 	
 	public boolean clicked;
-	private static Image button;
+	private Image button;
 	private int x;
 	private int y;
 	private int count;
@@ -25,7 +24,7 @@ public class Button extends JComponent{
 		
 	}
 	
-	public static void getButtonImage(boolean clicked) {
+	public void getButtonImage(boolean clicked) {
 		ImageIcon ij = new ImageIcon("assets/ButtonClicked.png");
 		ImageIcon ik = new ImageIcon("assets/ButtonUnclicked.png");	
 
@@ -55,9 +54,13 @@ public class Button extends JComponent{
 	
 	public boolean contains(int x, int y) {
 		if (x > this.x && x < this.x + 38 && y > this.y && y < this.y + 38) {
+			this.getButtonImage(true);
+			repaint();
 			return true;
 		}
 		
+		this.getButtonImage(false);
+		repaint();
 		return false;
 		
 	}
