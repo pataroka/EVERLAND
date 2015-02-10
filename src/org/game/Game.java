@@ -22,7 +22,8 @@ public class Game extends JFrame{
 
 	public Game() {
 		
-		listener = new ActionListener() {
+
+		/*listener = new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -36,16 +37,28 @@ public class Game extends JFrame{
 					run=true;
 				}
 			}
-		};
+		};*/
 		
+		//initStartScreen();
+//		initBoard();
+		this.setStartScreen();
 		
-		startScreen = new StartScreen(listener);
+	}
+	
+	public void setStartScreen() {
+		startScreen = new StartScreen(this);
 		startScreen.setVisible(true);
-		board = new Board();
-		board.setVisible(false);
-		
 		init();
 		update();
+	}
+	
+	public void setBoard() {
+		startScreen.setVisible(false);
+		this.remove(startScreen);
+		board = new Board(startScreen.playerCount, startScreen.humanCount);
+		board.setVisible(true);
+		run=true;
+		initBoard();
 	}
 	
 	private void init() {
@@ -60,20 +73,22 @@ public class Game extends JFrame{
 		//this.add(startScreen);
 		this.setVisible(true);
 	}
-	private void initboadr() {
+	
+	private void initBoard() {
 		this.add(board);
 	}
+	
 	private void update() {
 		while(true) {
-		while (run) {
-			board.tick();
-			repaint();
-			try {
-				Thread.sleep(30);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
+			while (run) {
+				board.tick();
+				repaint();
+				try {
+					Thread.sleep(30);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 			}
-		}
 		}
 	}	
 }

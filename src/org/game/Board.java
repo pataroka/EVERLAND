@@ -34,27 +34,21 @@ public class Board extends JPanel implements MouseListener {
 	private Player playerToRemoveFrom;
 	private Random random = new Random();
 
-	public Board() {
+	public Board(int playerCount, int humanPlayerCount) {
 
 		initBoard();
 		Figure.setBoardArray();
 
 		this.addMouseListener(this);
 		this.setFocusable(true);
-		setPlayers(4);
-		currentPlayer = players.get(0);
+		setPlayers(playerCount, humanPlayerCount);
 
 	}
 	
-	public void setPlayers(int countAI) {
-		int i = 1;
-		players.add(new Player(i <= countAI ? false : true, Figure.Color.GREEN));
-		i++;
-		players.add(new Player(i <= countAI ? false : true, Figure.Color.YELLOW));
-		i++;
-		players.add(new Player(i <= countAI ? false : true, Figure.Color.BLUE));
-		i++;
-		players.add(new Player(i <= countAI ? false : true, Figure.Color.RED));
+	public void setPlayers(int playersCount, int humanPlayersCount) {
+		for (int i = 1; i <= playersCount; i++) {
+			players.add(new Player(i <= humanPlayersCount ? true : false, Figure.Color.values()[i - 1]));
+		}
 	}
 
 	private void changePlayersTurnLabel(Player player) {
@@ -116,7 +110,7 @@ public class Board extends JPanel implements MouseListener {
 					} while (!rollDice);
 				} else {
 					try {
-						Thread.sleep(0);
+						Thread.sleep(200);
 					} catch (InterruptedException e) {
 						Thread.currentThread().interrupt();
 					}
