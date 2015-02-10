@@ -72,6 +72,7 @@ public class StartScreen extends JPanel implements MouseListener{
 		index = 1;
 		for (int i = 45; i < 420; i+=120) {
 			this.buttons.add(new Button(i, 505, index, false));
+			index++;
 		}
 		
 	}
