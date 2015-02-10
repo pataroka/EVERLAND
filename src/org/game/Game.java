@@ -16,7 +16,7 @@ public class Game extends JFrame{
 		startScreen = new StartScreen();		
 		board= new Board();
 		initStartScreen();
-		initBoard();
+//		initBoard();
 		update();
 	}
 	

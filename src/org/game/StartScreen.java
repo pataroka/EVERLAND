@@ -16,6 +16,7 @@ public class StartScreen extends JPanel implements MouseListener {
 	private Image startScreen;
 	private Image buttonUnclicked;
 	private Image buttonClicked;
+	public int buttonX;
 
 	public StartScreen() {
 	
@@ -52,17 +53,63 @@ public class StartScreen extends JPanel implements MouseListener {
 		for (int i = 45; i <= 430; i+=120){
 			g.drawImage(buttonUnclicked, i , 505, null);
 		}
+//		paintComponent(g, buttonX);
+//		paintComponent2(g, buttonX);
+	}
+	
+	public void paintComponent(Graphics g, int x) {
+		super.paint(g);
+		switch (x){
+			case 90 : g.drawImage(buttonClicked, 90, 305, null); break;
+			case 220 : g.drawImage(buttonClicked, 220, 305, null); break;
+			case 350 : g.drawImage(buttonClicked, 350, 305, null); break;
+		}
+	}
+	
+	public void paintComponent2(Graphics g, int x) {
+		super.paint(g);
+		switch (x){
+			case 45 : g.drawImage(buttonClicked, 45, 505, null); break;
+			case 165 : g.drawImage(buttonClicked, 165, 505, null); break;
+			case 285 : g.drawImage(buttonClicked, 285, 505, null); break;
+			case 405 : g.drawImage(buttonClicked, 405, 505, null); break;
+		}
+	}
+	
+	private void choosePlayerCount(){
+		synchronized (this) {
+			boolean countSelected = false;
+			do {
+				try {
+					this.wait();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			} while (!countSelected);
+		}
+		
+	}
+	
+	private void chooseHumanPlayer(){
+		
+		synchronized (this) {
+			boolean humanSelected = false;
+			do {
+				try {
+					this.wait();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			} while (!humanSelected);
+		}
+		
+		
+		
 	}
 	
 	public void mouseClicked(MouseEvent e) {
 		synchronized (this) {
-				if (e.getX() > Game.CELL_SIZE * 6
-						&& e.getX() < Game.CELL_SIZE * 7
-						&& e.getY() > Game.CELL_SIZE * 6
-						&& e.getY() < Game.CELL_SIZE * 7) {
-					repaint();
-				}
-
+			buttonX = e.getX();
 			this.notify();
 		}
 
