@@ -3,35 +3,46 @@ package org.game;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JPanel;
 
 
 @SuppressWarnings("serial")
-public class StartScreen extends JPanel implements MouseListener {
+public class StartScreen extends JPanel {
 	
 	private Image startScreen;
 	private Image buttonUnclicked;
 	private Image buttonClicked;
+	public JButton btn;
+	public JButton btn2;
+	public JButton btn3;
+	public JButton btn4;
+	private ActionListener listener;
 
-	public StartScreen() {
+	public StartScreen(ActionListener listener) {
+		
+		this.listener = listener;
 	
 		initStartScreen();
-	
-		this.addMouseListener(this);
-		this.setFocusable(true);
 		
 	}
 	
 	private void initStartScreen() {
 
-		loadStartScreen();
-		int width = startScreen.getWidth(this);
-		int height = startScreen.getHeight(this);
-		setPreferredSize(new Dimension(width, height));
+		//loadStartScreen();
+		btn = new JButton();
+		btn.addActionListener(listener);
+		btn.setText("12");
+		this.add(btn);
+		
+		//int width = startScreen.getWidth(this);
+		//int height = startScreen.getHeight(this);
+		//setPreferredSize(new Dimension(width, height));
 	}
 	
 	private void loadStartScreen() {
@@ -54,41 +65,4 @@ public class StartScreen extends JPanel implements MouseListener {
 		}
 	}
 	
-	public void mouseClicked(MouseEvent e) {
-		synchronized (this) {
-				if (e.getX() > Game.CELL_SIZE * 6
-						&& e.getX() < Game.CELL_SIZE * 7
-						&& e.getY() > Game.CELL_SIZE * 6
-						&& e.getY() < Game.CELL_SIZE * 7) {
-					repaint();
-				}
-
-			this.notify();
-		}
-
-	}
-
-	@Override
-	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
 }

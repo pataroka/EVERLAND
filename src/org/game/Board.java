@@ -41,12 +41,20 @@ public class Board extends JPanel implements MouseListener {
 
 		this.addMouseListener(this);
 		this.setFocusable(true);
+		setPlayers(4);
+		currentPlayer = players.get(0);
 
-		players.add(new Player(false, Figure.Color.GREEN));
-		players.add(new Player(false, Figure.Color.YELLOW));
-		players.add(new Player(false, Figure.Color.BLUE));
-		players.add(new Player(true, Figure.Color.RED));
-
+	}
+	
+	public void setPlayers(int countAI) {
+		int i = 1;
+		players.add(new Player(i <= countAI ? false : true, Figure.Color.GREEN));
+		i++;
+		players.add(new Player(i <= countAI ? false : true, Figure.Color.YELLOW));
+		i++;
+		players.add(new Player(i <= countAI ? false : true, Figure.Color.BLUE));
+		i++;
+		players.add(new Player(i <= countAI ? false : true, Figure.Color.RED));
 	}
 
 	private void changePlayersTurnLabel(Player player) {
@@ -108,7 +116,7 @@ public class Board extends JPanel implements MouseListener {
 					} while (!rollDice);
 				} else {
 					try {
-						Thread.sleep(500);
+						Thread.sleep(0);
 					} catch (InterruptedException e) {
 						Thread.currentThread().interrupt();
 					}
@@ -163,6 +171,7 @@ public class Board extends JPanel implements MouseListener {
 	private void checkWin(Player player) {
 		if (player.getFigures().isEmpty()) {
 			gameEnd = true;
+			Main.main(new String[1]);
 		}
 	}
 
