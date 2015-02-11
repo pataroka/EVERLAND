@@ -56,6 +56,7 @@ public class Game extends JFrame{
 	
 	private void update() {
 		while(true) {
+			//System.out.println("out");
 			while (run) {
 				board.tick();
 				repaint();
