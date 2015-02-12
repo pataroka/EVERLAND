@@ -167,6 +167,13 @@ public class Board extends JPanel implements MouseListener {
 	private void checkWin(Player player) {
 		if (player.getFigures().isEmpty()) {
 			gameEnd = true;
+			repaint();
+			try {
+				Thread.sleep(3000);
+			} catch (InterruptedException e) {
+				Thread.currentThread().interrupt();
+			}
+			
 			game.setStartScreen();
 		}
 	}
